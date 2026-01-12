@@ -304,7 +304,7 @@
             .then(data => {
                 loadingOverlay.style.display = 'none';
                 globalData = data;
-                themeSelect.innerHTML = '<option value="" disabled selected>✨ 請點此選擇販售主題...</option>';
+                themeSelect.innerHTML = '<option value="" disabled selected> 請點此選擇販售主題...</option>';
                 
                 if(Object.keys(data).length === 0){
                     themeSelect.innerHTML = '<option disabled>⚠️ 目前沒有上架的主題</option>';
