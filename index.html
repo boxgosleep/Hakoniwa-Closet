@@ -7,21 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/cwtexyen.css">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'dream-bg': '#FDF6F0',      /* 背景：溫暖杏色 */
-                        'dream-card': '#FFFDF9',    /* 卡片：奶油紙白 */
-                        'dream-border': '#E8D0C5',  /* 邊框：奶茶色 */
-                        'dream-accent': '#FF9EB5',  /* 強調：柔粉色 */
-                        'dream-accent-dark': '#FF7A92',
-                        'dream-text': '#8A756D',    /* 文字：可可棕 */
-                        'deco-yellow': '#FFEBA4',   /* 裝飾：鵝黃 */
-                        'deco-blue': '#BCE7F0',     /* 裝飾：寶寶藍 */
-                    },
+    'dream-bg': '#FFFAF0',      /* 花卉白 */
+    'dream-card': '#FFFFF5',    /* 象牙白 */
+    'dream-border': '#F0E0C0',  /* 餅乾色框 */
+    'dream-accent': '#F4B183',  /* 鮭魚橘按鈕 */
+    'dream-accent-dark': '#D99060',
+    'dream-text': '#8B5A2B',    /* 焦糖深棕文字 */
+    'deco-yellow': '#FFE4B5',   
+    'deco-blue': '#E0F7FA',
+},
                     fontFamily: { 
                         sans: ['"cwTeXYen"', '"Microsoft JhengHei"', 'sans-serif'] 
                     },
@@ -140,9 +141,10 @@
         <div class="text-center mb-10 relative">
             <div class="inline-block relative">
                 <i class="fa-solid fa-sparkles text-deco-yellow text-2xl absolute -top-4 -right-6 animate-pulse"></i>
-                <h1 class="text-5xl font-bold text-dream-accent tracking-widest drop-shadow-sm">
-                    箱庭入夢
-                </h1>
+                <h1 class="text-5xl font-bold text-dream-accent tracking-widest drop-shadow-sm" 
+    style="font-family: 'Zen Maru Gothic', sans-serif;">
+    箱庭入夢
+</h1>
                 <div class="h-3 bg-deco-yellow/40 w-[110%] absolute bottom-1 -left-2 -z-10 rounded-full"></div>
             </div>
             <div class="mt-4 flex justify-center gap-2 items-center">
@@ -257,7 +259,7 @@
                 <h3 class="text-3xl font-bold text-dream-text mb-3">訂單已送出！</h3>
                 <p class="text-base text-dream-text/80 mb-8 leading-relaxed">
                     小精靈已經收到您的資料囉！<br>
-                    請留意信箱，寶物很快就會送達。
+                    請留意信箱，待確認後很快就會送達。
                 </p>
                 <button onclick="location.reload()" class="px-10 py-3 bg-white border-2 border-dream-accent text-dream-accent rounded-full font-bold hover:bg-dream-accent hover:text-white transition-colors shadow-sm">
                     再填一張
