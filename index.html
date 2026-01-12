@@ -193,13 +193,19 @@
                         <div id="bankContainer" class="space-y-3 relative z-10"></div>
                     </div>
 
-                    <details class="bg-[#FFFDF9] border-2 border-dream-border rounded-[24px] overflow-hidden group">
-                        <summary class="cursor-pointer p-4 px-5 font-bold text-dream-text flex justify-between items-center hover:bg-white select-none">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gift text-dream-accent"></i> 內容物</span>
-                            <div class="text-dream-accent group-open:rotate-180 transition-transform"><i class="fa-solid fa-angle-down"></i></div>
-                        </summary>
-                        <div class="p-6 border-t-2 border-dashed border-dream-border text-base text-dream-text leading-loose whitespace-pre-wrap" id="contentText"></div>
-                    </details>
+                   <details class="bg-[#FFFDF9] border-2 border-dream-border rounded-[24px] overflow-hidden group">
+    <summary class="cursor-pointer p-4 px-5 font-bold text-dream-text flex justify-between items-center hover:bg-white select-none">
+        <span class="flex items-center gap-2">
+            <i class="fa-solid fa-gift text-dream-accent"></i> 內容物
+        </span>
+        <div class="text-dream-accent group-open:rotate-180 transition-transform bg-white w-8 h-8 rounded-full flex items-center justify-center border border-dream-border">
+            <i class="fa-solid fa-angle-down"></i>
+        </div>
+    </summary>
+    <div class="p-6 border-t-2 border-dashed border-dream-border text-base text-dream-text leading-loose whitespace-pre-wrap" id="contentText">
+        這裡是內容物文字...
+    </div>
+</details>
 
                     <details class="bg-[#FDFBF7] border-2 border-dream-border rounded-[24px] overflow-hidden group">
                         <summary class="cursor-pointer p-4 px-5 font-bold text-dream-text flex justify-between items-center hover:bg-white transition-colors select-none">
@@ -357,21 +363,27 @@
                 let parts = rawBank.split(/,|，/); 
                 let bankCode = parts[0].trim();
                 let bankAcct = parts[1] ? parts[1].trim() : "";
+                
+                // 修改說明：
+                // 1. 在「銀行代碼」和「銀行帳號」的 span 都加入了 whitespace-nowrap (強制不換行)
+                // 2. 帳號號碼字體改成 text-base sm:text-lg (手機版字小一點，避免太擠)
+                
                 bankHTML = `
                     <div class="flex items-center justify-between text-base">
-                        <span class="text-dream-text/70 font-bold"><i class="fa-solid fa-building-columns text-sm mr-1"></i> 銀行代碼</span>
+                        <span class="text-dream-text/70 font-bold whitespace-nowrap"><i class="fa-solid fa-building-columns text-sm mr-1"></i> 銀行代碼</span>
                         <span class="font-mono font-bold text-dream-text bg-[#FDF6F0] border border-dream-border px-4 py-1 rounded-xl">${bankCode}</span>
                     </div>
                     <div class="flex items-center justify-between text-base mt-3">
-                        <span class="text-dream-text/70 font-bold"><i class="fa-solid fa-money-check-dollar text-sm mr-1"></i> 銀行帳號</span>
-                        <div class="flex items-center gap-2">
-                            <span class="font-mono font-bold text-dream-text text-lg tracking-wider">${bankAcct}</span>
-                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-8 h-8 flex items-center justify-center bg-dream-border text-white rounded-full hover:bg-dream-accent transition-colors">
+                        <span class="text-dream-text/70 font-bold whitespace-nowrap"><i class="fa-solid fa-money-check-dollar text-sm mr-1"></i> 銀行帳號</span>
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span class="font-mono font-bold text-dream-text text-base sm:text-lg tracking-wider truncate">${bankAcct}</span>
+                            <button type="button" onclick="copyText('${bankAcct}', this)" class="shrink-0 w-8 h-8 flex items-center justify-center bg-dream-border text-white rounded-full hover:bg-dream-accent transition-colors">
                                 <i class="fa-regular fa-copy text-xs"></i>
                             </button>
                         </div>
                     </div>`;
             } else {
+                // ... (else 保持不變)
                 bankHTML = `<div class="text-base font-mono text-dream-text whitespace-pre-wrap">${rawBank || "無匯款資訊"}</div>`;
             }
             bankContainer.innerHTML = bankHTML;
