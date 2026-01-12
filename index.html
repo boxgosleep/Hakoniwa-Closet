@@ -64,12 +64,9 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Select Item</label>
                     <div class="relative">
-                        <select name="product" required 
+                        <select name="product" id="productSelect" required 
                             class="w-full bg-gray-50 border border-gray-200 rounded px-3 py-3 appearance-none focus:border-dream-accent outline-none">
-                            <option value="" disabled selected>請選擇服裝套組...</option>
-                            <option value="OC_SET_A">🥀 哥德蘿莉套裝 (數位版)</option>
-                            <option value="OC_SET_B">🪐 未來賽博套裝 (數位版)</option>
-                            <option value="OC_SET_C">🦋 森之精靈套裝 (數位版)</option>
+                            <option value="" disabled selected>📦 正在讀取商品列表...</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -110,13 +107,50 @@
     </div>
 
     <script>
-        // 👇👇👇 請把這裡換成你剛剛部署拿到的 GAS 網址 👇👇👇
+        // 👇 你的 GAS 網址 (我保留了你剛剛提供的)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
 
         const form = document.getElementById('orderForm');
         const btn = document.getElementById('submitBtn');
         const successMsg = document.getElementById('successMsg');
+        const select = document.getElementById('productSelect'); // 取得下拉選單
 
+        // ---------------------------------------------
+        // ✨ 新功能：自動載入商品列表
+        // ---------------------------------------------
+        function loadProducts() {
+            // 呼叫 GAS，加上 action=getProducts
+            fetch(SCRIPT_URL + '?action=getProducts') 
+            .then(res => res.json())
+            .then(products => {
+                // 清空選單，放回預設選項
+                select.innerHTML = '<option value="" disabled selected>請選擇服裝套組...</option>';
+                
+                if (!products || products.length === 0) {
+                     select.innerHTML += '<option disabled>暫無上架商品</option>';
+                     return;
+                }
+
+                // 把抓到的商品一個一個加進去
+                products.forEach(name => {
+                    let option = document.createElement('option');
+                    option.value = name; // 值 = 商品名稱
+                    option.text = name;  // 顯示文字 = 商品名稱
+                    select.appendChild(option);
+                });
+            })
+            .catch(err => {
+                console.error("無法載入商品", err);
+                select.innerHTML = '<option disabled>⚠️ 商品列表讀取失敗</option>';
+            });
+        }
+
+        // 網頁一打開就執行載入
+        window.addEventListener('load', loadProducts);
+
+        // ---------------------------------------------
+        // 原本的送出表單邏輯
+        // ---------------------------------------------
         form.addEventListener('submit', e => {
             e.preventDefault();
             
@@ -133,7 +167,7 @@
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(object),
-                headers: { "Content-Type": "text/plain;charset=utf-8" } // 避開 CORS 檢查
+                headers: { "Content-Type": "text/plain;charset=utf-8" } 
             })
             .then(res => res.json())
             .then(data => {
