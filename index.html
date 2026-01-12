@@ -364,20 +364,30 @@
                 let bankCode = parts[0].trim();
                 let bankAcct = parts[1] ? parts[1].trim() : "";
                 
-                // 修改說明：
-                // 1. 在「銀行代碼」和「銀行帳號」的 span 都加入了 whitespace-nowrap (強制不換行)
-                // 2. 帳號號碼字體改成 text-base sm:text-lg (手機版字小一點，避免太擠)
+                // 修改重點：
+                // 1. 外層 div 改為 flex-col (手機上下排) sm:flex-row (電腦左右排)
+                // 2. 標題 span 加入 mb-1 sm:mb-0 (手機版標題跟數字留點空隙)
+                // 3. 數字區塊加入 self-start sm:self-auto (手機版靠左，不要被拉寬)
                 
                 bankHTML = `
-                    <div class="flex items-center justify-between text-base">
-                        <span class="text-dream-text/70 font-bold whitespace-nowrap"><i class="fa-solid fa-building-columns text-sm mr-1"></i> 銀行代碼</span>
-                        <span class="font-mono font-bold text-dream-text bg-[#FDF6F0] border border-dream-border px-4 py-1 rounded-xl">${bankCode}</span>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-base">
+                        <span class="text-dream-text/70 font-bold mb-1 sm:mb-0">
+                            <i class="fa-solid fa-building-columns text-sm mr-1"></i> 銀行代碼
+                        </span>
+                        <span class="font-mono font-bold text-dream-text bg-[#FDF6F0] border border-dream-border px-4 py-1 rounded-xl self-start sm:self-auto">
+                            ${bankCode}
+                        </span>
                     </div>
-                    <div class="flex items-center justify-between text-base mt-3">
-                        <span class="text-dream-text/70 font-bold whitespace-nowrap"><i class="fa-solid fa-money-check-dollar text-sm mr-1"></i> 銀行帳號</span>
-                        <div class="flex items-center gap-2 min-w-0">
-                            <span class="font-mono font-bold text-dream-text text-base sm:text-lg tracking-wider truncate">${bankAcct}</span>
-                            <button type="button" onclick="copyText('${bankAcct}', this)" class="shrink-0 w-8 h-8 flex items-center justify-center bg-dream-border text-white rounded-full hover:bg-dream-accent transition-colors">
+
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-base mt-4">
+                        <span class="text-dream-text/70 font-bold mb-1 sm:mb-0">
+                            <i class="fa-solid fa-money-check-dollar text-sm mr-1"></i> 銀行帳號
+                        </span>
+                        <div class="flex items-center gap-2 self-start sm:self-auto">
+                            <span class="font-mono font-bold text-dream-text text-lg tracking-wider">
+                                ${bankAcct}
+                            </span>
+                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-8 h-8 flex items-center justify-center bg-dream-border text-white rounded-full hover:bg-dream-accent transition-colors">
                                 <i class="fa-regular fa-copy text-xs"></i>
                             </button>
                         </div>
