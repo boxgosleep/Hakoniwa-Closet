@@ -15,15 +15,15 @@
             theme: {
                 extend: {
                     colors: {
-    'dream-bg': '#FFFAF0',      /* 花卉白 */
-    'dream-card': '#FFFFF5',    /* 象牙白 */
-    'dream-border': '#F0E0C0',  /* 餅乾色框 */
-    'dream-accent': '#c99257',  /* 鮭魚橘按鈕 */
-    'dream-accent-dark': '#D99060',
-    'dream-text': '#8B5A2B',    /* 焦糖深棕文字 */
-    'deco-yellow': '#FFE4B5',   
-    'deco-blue': '#E0F7FA',
-},
+                        'dream-bg': '#FFFAF0',      /* 花卉白 */
+                        'dream-card': '#FFFFF5',    /* 象牙白 */
+                        'dream-border': '#F0E0C0',  /* 餅乾色框 */
+                        'dream-accent': '#c99257',  /* 鮭魚橘按鈕 */
+                        'dream-accent-dark': '#D99060',
+                        'dream-text': '#8B5A2B',    /* 焦糖深棕文字 */
+                        'deco-yellow': '#FFE4B5',   
+                        'deco-blue': '#E0F7FA',
+                    },
                     fontFamily: { 
                         sans: ['"cwTeXYen"', '"Microsoft JhengHei"', 'sans-serif'] 
                     },
@@ -36,43 +36,24 @@
     </script>
     <style>
         /* ☁️ 雲朵跳跳動畫 */
-@keyframes cloud-jump {
-    0%, 100% { 
-        transform: translateY(0) scale(1, 1); /* 在地上時正常 */
-    }
-    40% { 
-        transform: translateY(-25px) scale(1.1, 0.95); /* 跳到最高點，稍微拉長 */
-    }
-    60% {
-        transform: translateY(-25px) scale(1.1, 0.95); /* 滯空一下下 */
-    }
-    85% {
-        transform: translateY(0) scale(0.9, 1.1); /* 落地瞬間被壓扁一點點(Q彈感) */
-    }
-}
+        @keyframes cloud-jump {
+            0%, 100% { transform: translateY(0) scale(1, 1); }
+            40% { transform: translateY(-25px) scale(1.1, 0.95); }
+            60% { transform: translateY(-25px) scale(1.1, 0.95); }
+            85% { transform: translateY(0) scale(0.9, 1.1); }
+        }
 
-/* 🌑 影子縮放動畫 */
-@keyframes shadow-pulse {
-    0%, 100% { 
-        transform: scale(1); 
-        opacity: 0.3; /* 在地上時影子大 */
-    }
-    40%, 60% { 
-        transform: scale(0.6); 
-        opacity: 0.1; /* 跳起來時影子變小變淡 */
-    }
-}
+        /* 🌑 影子縮放動畫 */
+        @keyframes shadow-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            40%, 60% { transform: scale(0.6); opacity: 0.1; }
+        }
 
-.animate-cloud {
-    animation: cloud-jump 1.2s infinite ease-in-out;
-}
-
-.animate-shadow {
-    animation: shadow-pulse 1.2s infinite ease-in-out;
-}
+        .animate-cloud { animation: cloud-jump 1.2s infinite ease-in-out; }
+        .animate-shadow { animation: shadow-pulse 1.2s infinite ease-in-out; }
+        
         body {
             background-color: var(--dream-bg);
-            /* 點點背景圖案 */
             background-image: radial-gradient(#F0E0C0 20%, transparent 20%);
             background-position: 0 0;
             background-size: 24px 24px;
@@ -81,19 +62,17 @@
             overflow-x: hidden;
         }
         
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); } /* 加入回彈效果 */
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        /* 卡片樣式：像是貼在牆上的手帳紙 */
         .paper-card { 
             background-color: #FFFDF9;
             border: 3px solid #E8D0C5;
             border-radius: 36px;
-            box-shadow: 12px 12px 0px rgba(232, 208, 197, 0.4); /* 扁平化硬陰影 */
+            box-shadow: 12px 12px 0px rgba(232, 208, 197, 0.4);
             position: relative;
         }
         
-        /* 裝飾用紙膠帶 */
         .washi-tape {
             background-color: rgba(255, 158, 181, 0.3);
             height: 16px;
@@ -107,7 +86,6 @@
             z-index: 10;
         }
 
-        /* 輸入框樣式：可愛圓潤 */
         input, select, textarea { 
             border-radius: 20px;
             font-family: 'cwTeXYen', sans-serif; 
@@ -118,37 +96,32 @@
             border-color: #FF9EB5; 
             outline: none; 
             background-color: #FFFBFD;
-            /* 聚焦時變成虛線框 */
             border-style: dashed;
         }
         
-        /* 複選框被選中時的樣式 */
-.chk-input:checked + div { 
-    border-color: #D4A373;     /* 1. 邊框變成烤餅乾色 */
-    background-color: #FFF4E0; /* 2. 底色變成奶油麵團色 */
-    border-style: dashed;      /* 維持可愛的虛線 */
-}
-        
-        /* 按鈕樣式 */
-        .btn-cute { 
-    background-color: #D2691E; border: 3px solid #D2691E; color: white;
-}
-.btn-cute:hover { 
-    background-color: #A0522D; border-color: #A0522D;
-}
-.btn-cute:disabled {
-    background-color: #EED5B7; border-color: #EED5B7; color: #8B4513;
-}
-
-        /* 滾動條 */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        
-        /* 背景裝飾貼紙 (CSS形狀) */
-        .deco-circle {
-            position: absolute;
-            border-radius: 50%;
-            z-index: -1;
+        .chk-input:checked + div { 
+            border-color: #D4A373;     
+            background-color: #FFF4E0; 
+            border-style: dashed;      
         }
+        
+        .btn-cute { 
+            background-color: #D2691E; border: 3px solid #D2691E; color: white;
+            border-radius: 999px;
+            transition: all 0.2s;
+        }
+        .btn-cute:hover { 
+            background-color: #A0522D; border-color: #A0522D;
+            transform: translateY(-2px);
+        }
+        .btn-cute:active { transform: translateY(0); }
+        .btn-cute:disabled {
+            background-color: #EED5B7; border-color: #EED5B7; color: #8B4513;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
         
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
@@ -168,9 +141,9 @@
             <div class="inline-block relative">
                 <i class="fa-solid fa-sparkles text-deco-yellow text-2xl absolute -top-4 -right-6 animate-pulse"></i>
                 <h1 class="text-5xl font-bold text-dream-accent tracking-widest drop-shadow-sm" 
-    style="font-family: 'Zen Maru Gothic', sans-serif;">
-    箱庭入夢
-</h1>
+                    style="font-family: 'Zen Maru Gothic', sans-serif;">
+                    箱庭入夢
+                </h1>
                 <div class="h-3 bg-deco-yellow/40 w-[110%] absolute bottom-1 -left-2 -z-10 rounded-full"></div>
             </div>
             <div class="mt-4 flex justify-center gap-2 items-center">
@@ -185,13 +158,11 @@
             <div class="washi-tape"></div>
 
             <div id="loadingOverlay" class="absolute inset-0 bg-[#FFFDF9]/95 z-50 rounded-[32px] flex flex-col items-center justify-center backdrop-blur-sm">
-    
-    <i class="fa-solid fa-cloud fa-bounce text-3xl text-[#bfaa8e] mb-3"></i>
-    
-    <span class="text-dream-text font-bold text-lg tracking-widest">
-        正在翻開手帳...
-    </span>
-</div>
+                <i class="fa-solid fa-cloud fa-bounce text-3xl text-[#bfaa8e] mb-3"></i>
+                <span class="text-dream-text font-bold text-lg tracking-widest">
+                    正在翻開手帳...
+                </span>
+            </div>
 
             <form id="orderForm" class="space-y-7">
                 <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
@@ -310,8 +281,7 @@
     </div>
 
     <script>
-        /* 邏輯部分保持不變，直接沿用您原本的 Script */
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwa_eQptpiyYQXXcxYUNpU3UBuNvejONgKNpW2IJ7paGnufoVGtoOeQwJJOQ19lwEQo/exec'; 
 
         let globalData = {}; 
 
@@ -334,7 +304,7 @@
             .then(data => {
                 loadingOverlay.style.display = 'none';
                 globalData = data;
-                themeSelect.innerHTML = '<option value="" disabled selected> 請點此選擇販售主題...</option>';
+                themeSelect.innerHTML = '<option value="" disabled selected>請點此選擇販售主題...</option>';
                 
                 if(Object.keys(data).length === 0){
                     themeSelect.innerHTML = '<option disabled>⚠️ 目前沒有上架的主題</option>';
@@ -402,19 +372,30 @@
                     if(idMatch) imgSrc = `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
                 }
 
+                // ✨ 這裡加入了名稱分離邏輯 ✨
+                let displayName = item.name; // 預設顯示完整名稱
+                let submitValue = item.name; // 預設送出完整名稱
+                
+                // 如果偵測到 | 符號，就進行切割
+                if(item.name.includes('|')){
+                    const parts = item.name.split('|');
+                    displayName = parts[0].trim(); // | 前面的是「編號01」
+                    submitValue = parts[1].trim(); // | 後面的是「2026-xxx」
+                }
+
                 label.innerHTML = `
-                    <input type="checkbox" name="product_check" value="${item.name}" data-price="${item.price}" class="chk-input absolute opacity-0 w-0 h-0">
+                    <input type="checkbox" name="product_check" value="${submitValue}" data-price="${item.price}" class="chk-input absolute opacity-0 w-0 h-0">
                     <div class="border-2 border-dream-border rounded-[24px] p-3 flex justify-between items-center transition-all bg-white hover:border-dream-accent hover:shadow-sm">
                         <div class="flex items-center overflow-hidden w-full">
                             <div class="relative w-16 h-16 mr-3 flex-shrink-0">
-                                <img src="${imgSrc}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/E8D0C5/white?text=No+Img'; this.classList.add('opacity-50');" alt="${item.name}" class="w-full h-full object-cover rounded-xl border border-dream-border bg-[#FDF6F0]">
+                                <img src="${imgSrc}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/E8D0C5/white?text=No+Img'; this.classList.add('opacity-50');" alt="${displayName}" class="w-full h-full object-cover rounded-xl border border-dream-border bg-[#FDF6F0]">
                             </div>
                             <div class="flex flex-col min-w-0 pr-2">
-                                <span class="text-dream-text font-bold text-base truncate leading-tight group-hover:text-dream-accent transition-colors">${item.name}</span>
+                                <span class="text-dream-text font-bold text-base leading-tight group-hover:text-dream-accent transition-colors break-words">${displayName}</span>
                                 <span class="text-sm text-white bg-dream-border px-2 py-0.5 rounded-full w-fit mt-1 font-bold font-mono group-hover:bg-dream-accent transition-colors">NT$ ${item.price}</span>
                             </div>
                         </div>
-                        <div class="chk-icon w-8 h-8 rounded-full border-2 border-dream-border flex-shrink-0 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all ml-2">
+                        <div class="chk-icon w-8 h-8 rounded-full border-2 border-dream-border flex-shrink-0 flex items-center justify-center text-white bg-[#D4A373] opacity-0 transform scale-50 transition-all ml-2">
                             <i class="fa-solid fa-heart text-sm"></i>
                         </div>
                     </div>`;
@@ -472,6 +453,7 @@
             let formData = new FormData(form);
             let object = {};
             formData.forEach((value, key) => object[key] = value);
+            // 這裡會抓取我們剛剛設定的 submitValue (後台代碼)
             object['product'] = Array.from(checkedBoxes).map(cb => cb.value).join(", ");
             object['amount'] = totalInput.value;
 
