@@ -13,19 +13,20 @@
             theme: {
                 extend: {
                     colors: {
-                        /* 新背景色：溫柔米灰粉 */
-                        'dream-bg-flat': '#F7F0EB', 
-                        /* 卡片背景：純白 */
-                        'dream-card-flat': '#FFFFFF',
-                        /* 邊框色：淺米咖 */
-                        'dream-border-flat': '#E5D4CE',
-                        
-                        /* 保留原本的強調色與文字色 */
-                        'dream-accent': '#FF8DA1',
-                        'dream-text': '#7D6C65',
+                        'dream-bg': '#FDF6F0',      /* 背景：溫暖杏色 */
+                        'dream-card': '#FFFDF9',    /* 卡片：奶油紙白 */
+                        'dream-border': '#E8D0C5',  /* 邊框：奶茶色 */
+                        'dream-accent': '#FF9EB5',  /* 強調：柔粉色 */
+                        'dream-accent-dark': '#FF7A92',
+                        'dream-text': '#8A756D',    /* 文字：可可棕 */
+                        'deco-yellow': '#FFEBA4',   /* 裝飾：鵝黃 */
+                        'deco-blue': '#BCE7F0',     /* 裝飾：寶寶藍 */
                     },
                     fontFamily: { 
                         sans: ['"cwTeXYen"', '"Microsoft JhengHei"', 'sans-serif'] 
+                    },
+                    backgroundImage: {
+                        'dot-pattern': 'radial-gradient(#E8D0C5 2px, transparent 2px)',
                     }
                 }
             }
@@ -33,199 +34,251 @@
     </script>
     <style>
         body {
-            /* 背景全面扁平化，使用米灰色 */
-            background-color: var(--dream-bg-flat);
+            background-color: var(--dream-bg);
+            /* 點點背景圖案 */
+            background-image: radial-gradient(#E5D4CE 20%, transparent 20%);
+            background-position: 0 0;
+            background-size: 24px 24px;
             font-family: 'cwTeXYen', 'Microsoft JhengHei', sans-serif;
-            color: var(--dream-text);
+            color: #8A756D;
+            overflow-x: hidden;
         }
         
-        .fade-in { animation: fadeIn 0.6s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); } /* 加入回彈效果 */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        /* 卡片樣式：純扁平白底，實線邊框 */
-        .flat-card { 
-            background-color: var(--dream-card-flat);
-            border: 2px solid var(--dream-border-flat);
-            border-radius: 30px;
-            /* 無陰影 */
-            box-shadow: none;
-        }
-        
-        /* 複選框樣式：扁平化 */
-        .chk-input:checked + div { 
-            border-color: var(--dream-accent); 
-            background-color: #FFF5F7; 
-            /* 無陰影 */
-            box-shadow: none;
+        /* 卡片樣式：像是貼在牆上的手帳紙 */
+        .paper-card { 
+            background-color: #FFFDF9;
+            border: 3px solid #E8D0C5;
+            border-radius: 36px;
+            box-shadow: 12px 12px 0px rgba(232, 208, 197, 0.4); /* 扁平化硬陰影 */
+            position: relative;
         }
         
-        /* 輸入框樣式：扁平化 */
-        input, select, button, textarea { 
-            border-radius: 999px;
-            font-family: 'cwTeXYen', sans-serif; 
-            border: 2px solid var(--dream-border-flat); /* 預設淺色邊框 */
-        }
-        input:focus, select:focus, textarea:focus { 
-            border-color: var(--dream-accent); /* 聚焦變粉色 */
-            /* 移除發光陰影 */
-            box-shadow: none;
-            outline: none; 
-            background-color: #FFF;
-        }
-        
-        /* ✨ 全扁平送出按鈕 ✨ */
-        .btn-submit-flat { 
-            background-color: var(--dream-accent); /* 純實色 */
-            color: #FFFFFF !important; 
-            border: none;
-            box-shadow: none; /* 無陰影 */
-            transition: background-color 0.2s ease; /* 只做顏色變換 */
-        }
-        .btn-submit-flat:hover { 
-            background-color: #FF7A92; /* 滑鼠經過稍微變深一點點 */
-            transform: none; /* 不上浮 */
-        }
-        .btn-submit-flat:active { 
-            background-color: #E86F85;
-            transform: none; /* 不縮放 */
-        }
-        .btn-submit-flat:disabled {
-            background-color: #E0E0E0;
-            color: #BCBCBC !important;
-            cursor: not-allowed;
+        /* 裝飾用紙膠帶 */
+        .washi-tape {
+            background-color: rgba(255, 158, 181, 0.3);
+            height: 16px;
+            width: 120px;
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            border-left: 2px dashed rgba(255,255,255,0.5);
+            border-right: 2px dashed rgba(255,255,255,0.5);
+            z-index: 10;
         }
 
-        /* 滾動條扁平化 */
-        .scrollbar-thin::-webkit-scrollbar { width: 6px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--dream-border-flat); border-radius: 10px; }
+        /* 輸入框樣式：可愛圓潤 */
+        input, select, textarea { 
+            border-radius: 20px;
+            font-family: 'cwTeXYen', sans-serif; 
+            border: 2px solid #E8D0C5;
+            background-color: #FFF;
+        }
+        input:focus, select:focus, textarea:focus { 
+            border-color: #FF9EB5; 
+            outline: none; 
+            background-color: #FFFBFD;
+            /* 聚焦時變成虛線框 */
+            border-style: dashed;
+        }
+        
+        /* 複選框被選中時的樣式 */
+        .chk-input:checked + div { 
+            border-color: #FF9EB5; 
+            background-color: #FFF0F5; 
+            border-style: dashed; /* 選中變成虛線框 */
+        }
+        
+        /* 按鈕樣式 */
+        .btn-cute { 
+            background-color: #FF9EB5; 
+            color: white; 
+            border: 3px solid #FF9EB5;
+            border-radius: 999px;
+            transition: all 0.2s;
+        }
+        .btn-cute:hover { 
+            background-color: #FF7A92; 
+            border-color: #FF7A92;
+            transform: translateY(-2px);
+        }
+        .btn-cute:active { transform: translateY(0); }
+        .btn-cute:disabled {
+            background-color: #ECECEC;
+            border-color: #ECECEC;
+            color: #BBB;
+            transform: none;
+        }
+
+        /* 滾動條 */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        
+        /* 背景裝飾貼紙 (CSS形狀) */
+        .deco-circle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+        }
         
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
         .whitespace-pre-wrap { white-space: pre-wrap; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 py-12">
 
-    <div class="max-w-[520px] w-full fade-in relative pb-20"> 
+    <div class="fixed top-10 left-10 text-4xl text-dream-border opacity-50 rotate-[-15deg]"><i class="fa-solid fa-star"></i></div>
+    <div class="fixed bottom-20 right-10 text-5xl text-deco-blue opacity-40 rotate-[20deg]"><i class="fa-solid fa-cloud"></i></div>
+    <div class="fixed top-1/3 right-12 text-3xl text-deco-yellow opacity-60 rotate-[45deg]"><i class="fa-solid fa-heart"></i></div>
+    <div class="fixed bottom-10 left-20 text-4xl text-dream-accent opacity-30 rotate-[-10deg]"><i class="fa-solid fa-cookie"></i></div>
+
+    <div class="max-w-[540px] w-full fade-in relative z-10"> 
         
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-dream-accent mb-3 tracking-wider">
-                箱庭入夢
-            </h1>
-            <div class="inline-block px-4 py-1 rounded-full border-2 border-dream-border-flat bg-white">
-                <p class="text-base font-bold text-dream-text tracking-wider">批發服設 ✶ 購買表單</p>
+        <div class="text-center mb-10 relative">
+            <div class="inline-block relative">
+                <i class="fa-solid fa-sparkles text-deco-yellow text-2xl absolute -top-4 -right-6 animate-pulse"></i>
+                <h1 class="text-5xl font-bold text-dream-accent tracking-widest drop-shadow-sm">
+                    箱庭入夢
+                </h1>
+                <div class="h-3 bg-deco-yellow/40 w-[110%] absolute bottom-1 -left-2 -z-10 rounded-full"></div>
+            </div>
+            <div class="mt-4 flex justify-center gap-2 items-center">
+                <span class="w-2 h-2 rounded-full bg-dream-border"></span>
+                <p class="text-lg font-bold text-dream-text/80 tracking-widest">批發服設 ✶ 購買表單</p>
+                <span class="w-2 h-2 rounded-full bg-dream-border"></span>
             </div>
         </div>
 
-        <div class="flat-card p-6 md:p-8 relative">
+        <div class="paper-card p-6 md:p-10">
             
-            <div id="loadingOverlay" class="absolute inset-0 bg-white z-50 rounded-[28px] flex flex-col items-center justify-center">
-                <i class="fa-solid fa-cloud fa-bounce text-3xl text-dream-border-flat mb-4"></i>
-                <span class="text-dream-text font-bold text-base tracking-widest">資料讀取中...</span>
+            <div class="washi-tape"></div>
+
+            <div id="loadingOverlay" class="absolute inset-0 bg-white/90 z-50 rounded-[32px] flex flex-col items-center justify-center backdrop-blur-sm">
+                <i class="fa-solid fa-spinner fa-spin-pulse text-4xl text-dream-accent mb-4"></i>
+                <span class="text-dream-text font-bold text-lg tracking-widest">正在翻開手帳...</span>
             </div>
 
-            <form id="orderForm" class="space-y-6">
+            <form id="orderForm" class="space-y-7">
                 <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
 
-                <div class="group">
-                    <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">
-                        選擇主題 (Theme)
+                <div class="group relative">
+                    <label class="block text-base font-bold text-dream-text mb-2 pl-3 flex items-center gap-2">
+                        <i class="fa-solid fa-tag text-dream-accent"></i> 選擇主題 (Theme)
                     </label>
                     <div class="relative">
-                        <select id="themeSelect" class="w-full bg-white px-6 py-3 appearance-none font-bold text-dream-text cursor-pointer hover:border-dream-accent transition-colors text-lg">
+                        <select id="themeSelect" class="w-full px-6 py-4 appearance-none font-bold text-dream-text cursor-pointer text-lg shadow-sm">
                             <option value="" disabled selected>讀取資料中...</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-dream-accent">
-                            <i class="fa-solid fa-caret-down text-lg"></i>
+                            <i class="fa-solid fa-chevron-down text-lg"></i>
                         </div>
                     </div>
                 </div>
 
-                <div id="infoSection" class="hidden space-y-4 fade-in">
-                    <div class="bg-[#FFF9FB] border-2 border-dream-border-flat rounded-[24px] p-5 relative">
-                        <h3 class="text-base font-bold text-dream-accent mb-3 flex items-center gap-2 border-b-2 border-dream-border-flat pb-2 relative z-10">
-                            <i class="fa-solid fa-sack-dollar"></i> Payment Info
+                <div id="infoSection" class="hidden space-y-5 fade-in">
+                    <div class="bg-white border-2 border-dashed border-dream-border rounded-[24px] p-6 relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 text-6xl text-dream-bg rotate-12 opacity-50">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-dream-accent mb-3 flex items-center gap-2 border-b-2 border-dream-border/30 pb-2 relative z-10">
+                            <span>Payment Info</span>
                         </h3>
                         <div id="bankContainer" class="space-y-3 relative z-10"></div>
                     </div>
 
-                    <details class="bg-white border-2 border-dream-border-flat rounded-[24px] overflow-hidden group">
-                        <summary class="cursor-pointer p-4 px-5 font-bold text-dream-text flex justify-between items-center hover:bg-dream-bg-flat transition-colors select-none">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-book-open text-dream-accent"></i> 購買須知</span>
-                            <div class="text-dream-accent group-open:rotate-180 transition-transform">
-                                <i class="fa-solid fa-chevron-down"></i>
+                    <details class="bg-[#FDFBF7] border-2 border-dream-border rounded-[24px] overflow-hidden group">
+                        <summary class="cursor-pointer p-4 px-5 font-bold text-dream-text flex justify-between items-center hover:bg-white transition-colors select-none">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-envelope-open-text text-dream-accent"></i> 購買須知</span>
+                            <div class="text-dream-accent group-open:rotate-180 transition-transform bg-white w-8 h-8 rounded-full flex items-center justify-center border border-dream-border">
+                                <i class="fa-solid fa-angle-down"></i>
                             </div>
                         </summary>
-                        <div class="p-5 border-t-2 border-dream-border-flat text-base text-dream-text leading-loose whitespace-pre-wrap bg-white" id="ruleText"></div>
+                        <div class="p-6 border-t-2 border-dashed border-dream-border text-base text-dream-text leading-loose whitespace-pre-wrap" id="ruleText"></div>
                     </details>
                 </div>
 
                 <div id="productSection" class="hidden fade-in">
-                    <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">
-                        選擇商品 (Items)
+                    <label class="block text-base font-bold text-dream-text mb-3 pl-3 flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping text-dream-accent"></i> 選擇商品 (Items)
                     </label>
-                    <div id="productList" class="space-y-3 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin pl-1"></div>
+                    <div id="productList" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide pl-1"></div>
                 </div>
 
-                <div id="buyerSection" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 fade-in">
+                <div id="buyerSection" class="hidden grid grid-cols-1 md:grid-cols-2 gap-5 fade-in">
                     <div>
-                        <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">您的暱稱</label>
-                        <input type="text" name="name" required placeholder="怎麼稱呼您呢？" class="w-full bg-white px-6 py-3 text-dream-text placeholder-dream-border-flat text-base transition-colors">
+                        <label class="block text-sm font-bold text-dream-text mb-2 pl-3">您的暱稱</label>
+                        <input type="text" name="name" required placeholder="怎麼稱呼您呢？" class="w-full px-5 py-3 text-dream-text placeholder-dream-border text-base transition-colors">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">電子信箱</label>
-                        <input type="email" name="email" required placeholder="接收檔案用" class="w-full bg-white px-6 py-3 text-dream-text placeholder-dream-border-flat text-base transition-colors">
+                        <label class="block text-sm font-bold text-dream-text mb-2 pl-3">電子信箱</label>
+                        <input type="email" name="email" required placeholder="接收檔案用" class="w-full px-5 py-3 text-dream-text placeholder-dream-border text-base transition-colors">
                     </div>
                 </div>
 
                 <div id="totalSection" class="hidden fade-in">
-                    <div class="bg-white border-2 border-dream-border-flat p-6 rounded-[24px]">
-                        <div class="flex justify-between items-end mb-4 border-b-2 border-dream-border-flat pb-4">
+                    <div class="bg-deco-yellow/20 border-2 border-dream-border p-6 rounded-[28px] relative">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-dream-accent rounded-full border-2 border-white"></div>
+                        
+                        <div class="flex justify-between items-end mb-4 border-b-2 border-dashed border-dream-border pb-4 mt-2">
                             <span class="text-sm font-bold text-dream-text/70">總金額 Total</span>
                             <div class="text-4xl font-bold font-mono text-dream-accent flex items-center">
-                                $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-28 text-right outline-none cursor-default text-dream-accent font-bold border-none p-0">
+                                $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-28 text-right outline-none cursor-default text-dream-accent font-bold border-none p-0 focus:bg-transparent">
                             </div>
                         </div>
                         <div>
-                             <label class="block text-sm font-bold text-dream-accent mb-2 pl-2">
+                             <label class="block text-sm font-bold text-dream-text mb-2 pl-2">
                                 帳號後五碼 / 備註
                              </label>
                              <input type="text" name="account" required placeholder="請填寫匯款後五碼..." 
-                                class="w-full bg-[#FFF9FB] px-4 py-3 text-center tracking-widest text-dream-text placeholder-dream-border-flat text-lg font-bold transition-colors">
+                                class="w-full bg-white px-4 py-3 text-center tracking-widest text-dream-text placeholder-dream-border text-lg font-bold transition-colors">
                         </div>
                     </div>
                 </div>
 
                 <div id="btnContainer" class="hidden fade-in pt-4">
-                    <button type="submit" id="submitBtn" class="w-full btn-submit-flat font-bold py-4 text-xl rounded-full flex items-center justify-center">
-                        <span>確認送出訂單</span>
+                    <button type="submit" id="submitBtn" class="w-full btn-cute font-bold py-4 text-xl flex items-center justify-center gap-2">
+                        <span>投遞訂單</span> <i class="fa-regular fa-paper-plane"></i>
                     </button>
                 </div>
 
             </form>
 
-            <div id="successMsg" class="hidden text-center mt-6 fade-in py-12">
-                <div class="w-24 h-24 mx-auto mb-6 bg-dream-accent/10 rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-check text-5xl text-dream-accent"></i>
+            <div id="successMsg" class="hidden text-center mt-6 fade-in py-12 relative">
+                <div class="absolute top-0 left-0 w-full h-full pointer-events-none flex justify-center items-center overflow-hidden">
+                    <i class="fa-solid fa-star text-deco-yellow text-xl absolute top-10 left-10 animate-bounce"></i>
+                    <i class="fa-solid fa-heart text-dream-accent text-xl absolute bottom-10 right-10 animate-pulse"></i>
+                </div>
+                <div class="w-24 h-24 mx-auto mb-6 bg-[#FFF0F5] border-4 border-white shadow-[0_0_0_4px_#FF9EB5] rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-check text-4xl text-dream-accent"></i>
                 </div>
                 <h3 class="text-3xl font-bold text-dream-text mb-3">訂單已送出！</h3>
                 <p class="text-base text-dream-text/80 mb-8 leading-relaxed">
                     小精靈已經收到您的資料囉！<br>
                     請留意信箱，寶物很快就會送達。
                 </p>
-                <button onclick="location.reload()" class="px-10 py-3 bg-white border-2 border-dream-accent text-dream-accent rounded-full font-bold hover:bg-dream-accent hover:text-white transition-colors">
+                <button onclick="location.reload()" class="px-10 py-3 bg-white border-2 border-dream-accent text-dream-accent rounded-full font-bold hover:bg-dream-accent hover:text-white transition-colors shadow-sm">
                     再填一張
                 </button>
             </div>
         </div>
         
-        <div class="text-center mt-12 text-sm text-dream-border-flat font-bold tracking-widest">
-            &copy; 2026 Hakoniwa Studio.
+        <div class="text-center mt-12 flex flex-col items-center gap-2">
+            <div class="text-2xl text-dream-border space-x-4">
+                <i class="fa-solid fa-tree"></i>
+                <i class="fa-solid fa-house-chimney"></i>
+                <i class="fa-solid fa-tree"></i>
+            </div>
+            <div class="text-xs text-dream-border font-bold tracking-widest bg-white/50 px-3 py-1 rounded-full">
+                &copy; 2026 Hakoniwa Studio.
+            </div>
         </div>
     </div>
 
     <script>
+        /* 邏輯部分保持不變，直接沿用您原本的 Script */
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
 
         let globalData = {}; 
@@ -249,7 +302,7 @@
             .then(data => {
                 loadingOverlay.style.display = 'none';
                 globalData = data;
-                themeSelect.innerHTML = '<option value="" disabled selected>請點此選擇販售主題...</option>';
+                themeSelect.innerHTML = '<option value="" disabled selected>✨ 請點此選擇販售主題...</option>';
                 
                 if(Object.keys(data).length === 0){
                     themeSelect.innerHTML = '<option disabled>⚠️ 目前沒有上架的主題</option>';
@@ -289,15 +342,15 @@
                 let bankAcct = parts[1] ? parts[1].trim() : "";
                 bankHTML = `
                     <div class="flex items-center justify-between text-base">
-                        <span class="text-dream-text/70 font-bold">銀行代碼</span>
-                        <span class="font-mono font-bold text-dream-text bg-white border border-dream-border-flat px-4 py-1 rounded-full">${bankCode}</span>
+                        <span class="text-dream-text/70 font-bold"><i class="fa-solid fa-building-columns text-sm mr-1"></i> 銀行代碼</span>
+                        <span class="font-mono font-bold text-dream-text bg-[#FDF6F0] border border-dream-border px-4 py-1 rounded-xl">${bankCode}</span>
                     </div>
                     <div class="flex items-center justify-between text-base mt-3">
-                        <span class="text-dream-text/70 font-bold">銀行帳號</span>
+                        <span class="text-dream-text/70 font-bold"><i class="fa-solid fa-money-check-dollar text-sm mr-1"></i> 銀行帳號</span>
                         <div class="flex items-center gap-2">
                             <span class="font-mono font-bold text-dream-text text-lg tracking-wider">${bankAcct}</span>
-                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-9 h-9 flex items-center justify-center bg-dream-border-flat text-white rounded-full hover:bg-dream-accent transition-colors">
-                                <i class="fa-regular fa-copy text-sm"></i>
+                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-8 h-8 flex items-center justify-center bg-dream-border text-white rounded-full hover:bg-dream-accent transition-colors">
+                                <i class="fa-regular fa-copy text-xs"></i>
                             </button>
                         </div>
                     </div>`;
@@ -319,16 +372,18 @@
 
                 label.innerHTML = `
                     <input type="checkbox" name="product_check" value="${item.name}" data-price="${item.price}" class="chk-input absolute opacity-0 w-0 h-0">
-                    <div class="border-2 border-dream-border-flat rounded-[24px] p-3 flex justify-between items-center transition-colors hover:border-dream-accent bg-white">
+                    <div class="border-2 border-dream-border rounded-[24px] p-3 flex justify-between items-center transition-all bg-white hover:border-dream-accent hover:shadow-sm">
                         <div class="flex items-center overflow-hidden w-full">
-                            <img src="${imgSrc}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/E5D4CE/white?text=No+Img'; this.classList.add('opacity-50');" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl border-2 border-dream-border-flat mr-3 bg-[#fffbfc]">
+                            <div class="relative w-16 h-16 mr-3 flex-shrink-0">
+                                <img src="${imgSrc}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/E8D0C5/white?text=No+Img'; this.classList.add('opacity-50');" alt="${item.name}" class="w-full h-full object-cover rounded-xl border border-dream-border bg-[#FDF6F0]">
+                            </div>
                             <div class="flex flex-col min-w-0 pr-2">
-                                <span class="text-dream-text font-bold text-base truncate leading-tight">${item.name}</span>
-                                <span class="text-sm text-dream-accent mt-1 font-bold">NT$ ${item.price}</span>
+                                <span class="text-dream-text font-bold text-base truncate leading-tight group-hover:text-dream-accent transition-colors">${item.name}</span>
+                                <span class="text-sm text-white bg-dream-border px-2 py-0.5 rounded-full w-fit mt-1 font-bold font-mono group-hover:bg-dream-accent transition-colors">NT$ ${item.price}</span>
                             </div>
                         </div>
-                        <div class="chk-icon w-7 h-7 rounded-full border-2 border-dream-border-flat flex-shrink-0 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all ml-2">
-                            <i class="fa-solid fa-heart text-xs"></i>
+                        <div class="chk-icon w-8 h-8 rounded-full border-2 border-dream-border flex-shrink-0 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all ml-2">
+                            <i class="fa-solid fa-heart text-sm"></i>
                         </div>
                     </div>`;
                 productList.appendChild(label);
@@ -341,10 +396,12 @@
             navigator.clipboard.writeText(text).then(() => {
                 const originalIcon = btnElement.innerHTML;
                 btnElement.innerHTML = '<i class="fa-solid fa-check"></i>';
-                btnElement.classList.add('bg-green-400', 'border-green-400');
+                btnElement.classList.add('bg-green-400', 'border-green-400', 'text-white');
+                btnElement.classList.remove('bg-dream-border');
                 setTimeout(() => {
                     btnElement.innerHTML = originalIcon;
                     btnElement.classList.remove('bg-green-400', 'border-green-400');
+                    btnElement.classList.add('bg-dream-border');
                 }, 1500);
             });
         }
