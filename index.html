@@ -10,37 +10,30 @@
             theme: {
                 extend: {
                     colors: {
-                        'dream-bg': '#f3f4f6', // 背景灰白
-                        'dream-card': '#ffffff', // 卡片白
-                        'dream-accent': '#8b5cf6', // 夢幻紫
-                        'dream-text': '#4b5563', // 深灰字
+                        'dream-bg': '#f3f4f6', 
+                        'dream-accent': '#8b5cf6', 
+                        'dream-text': '#4b5563', 
                     },
-                    fontFamily: {
-                        sans: ['"Helvetica Neue"', 'Arial', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['"Helvetica Neue"', 'Arial', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        /* 增加一點淡入動畫 */
-        .fade-in { animation: fadeIn 0.8s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* 毛玻璃效果 */
-        .glass {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-        }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        /* 複選框選中時的樣式 */
+        .chk-input:checked + div { border-color: #8b5cf6; background-color: #f5f3ff; }
+        .chk-input:checked + div .chk-icon { opacity: 1; transform: scale(1); }
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex items-center justify-center p-4">
 
     <div class="max-w-lg w-full fade-in relative">
-        
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-light tracking-widest text-gray-800 mb-2">HAKONIWA</h1>
-            <p class="text-sm text-gray-500 tracking-widest">箱庭入夢 · 數位批發部</p>
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-light tracking-widest text-gray-800 mb-1">HAKONIWA</h1>
+            <p class="text-xs text-gray-500 tracking-widest">箱庭入夢 · 數位批發部</p>
         </div>
 
         <div class="glass shadow-xl rounded-2xl p-8 border border-white/50">
@@ -49,150 +42,237 @@
                 <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
 
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Buyer Name</label>
-                    <input type="text" name="name" required placeholder="請輸入您的稱呼" 
-                        class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email Address</label>
-                    <input type="email" name="email" required placeholder="接收檔案用" 
-                        class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
-                    <p class="text-xs text-gray-400 mt-1">* 下單後系統將自動發送數位連結至此信箱</p>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Select Item</label>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">① 選擇主題 (Theme)</label>
                     <div class="relative">
-                        <select name="product" id="productSelect" required 
-                            class="w-full bg-gray-50 border border-gray-200 rounded px-3 py-3 appearance-none focus:border-dream-accent outline-none">
-                            <option value="" disabled selected>📦 正在讀取商品列表...</option>
+                        <select id="themeSelect" class="w-full bg-gray-50 border border-gray-200 rounded px-3 py-3 appearance-none focus:border-dream-accent outline-none">
+                            <option value="" disabled selected>📦 讀取中...</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            <svg class="fill-current h-4 w-4" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="w-1/2">
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Amount</label>
-                        <input type="text" name="quantity" required placeholder="金額" 
-                            class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
-                    </div>
-                    <div class="w-1/2">
-                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Last 5 Digits</label>
-                         <input type="text" name="account" required placeholder="帳號後五碼" 
-                            class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
+                <div id="infoCard" class="hidden bg-gray-100 rounded-lg p-4 text-sm text-gray-600 space-y-2 fade-in">
+                    <div id="ruleText" class="text-xs border-b border-gray-200 pb-2 mb-2 font-bold text-dream-accent"></div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-gray-500 text-xs">匯款資訊：</span>
+                        <div id="bankText" class="whitespace-pre-line font-mono text-gray-700 font-bold"></div>
                     </div>
                 </div>
 
-                <button type="submit" id="submitBtn"
-                    class="w-full bg-gray-800 text-white font-medium py-3 rounded-lg hover:bg-gray-700 transition-all transform hover:scale-[1.02] shadow-lg">
+                <div id="productSection" class="hidden">
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">② 選擇商品 (Select Items)</label>
+                    <div id="productList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                        </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Buyer Name</label>
+                        <input type="text" name="name" required placeholder="稱呼" class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-2 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email</label>
+                        <input type="email" name="email" required placeholder="Email" class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-2 py-2 outline-none">
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase">Total Amount</span>
+                        <div class="text-xl font-bold text-gray-800">
+                            $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-20 text-right outline-none cursor-default">
+                        </div>
+                    </div>
+                    <div>
+                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Last 5 Digits</label>
+                         <input type="text" name="account" required placeholder="請輸入匯款帳號後五碼" 
+                            class="w-full bg-white border border-gray-200 rounded px-3 py-2 focus:border-dream-accent outline-none text-center tracking-widest">
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-gray-800 text-white font-medium py-3 rounded-lg hover:bg-gray-700 transition-all shadow-lg">
                     確認送出訂單
                 </button>
             </form>
 
-            <div id="successMsg" class="hidden text-center mt-6">
+            <div id="successMsg" class="hidden text-center mt-6 fade-in">
                 <div class="text-4xl mb-2">✨</div>
                 <h3 class="text-lg font-bold text-gray-700">訂單已送出</h3>
-                <p class="text-sm text-gray-500">請靜候管理員核准，檔案將會自動寄出。</p>
+                <p class="text-sm text-gray-500">請靜候核准，檔案將自動寄出。</p>
                 <button onclick="location.reload()" class="mt-4 text-xs text-dream-accent underline">再下一單</button>
             </div>
         </div>
-
-        <div class="text-center mt-8 text-xs text-gray-400">
-            &copy; 2024 Hakoniwa Studio. All rights reserved.
-        </div>
+        
+        <div class="text-center mt-8 text-xs text-gray-400">&copy; 2024 Hakoniwa Studio.</div>
     </div>
 
     <script>
-        // 👇 你的 GAS 網址 (我保留了你剛剛提供的)
+        // 👇👇👇【重要】請在這裡貼上你剛剛部署拿到的 GAS 新網址 👇👇👇
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
 
-        const form = document.getElementById('orderForm');
-        const btn = document.getElementById('submitBtn');
-        const successMsg = document.getElementById('successMsg');
-        const select = document.getElementById('productSelect'); // 取得下拉選單
+        let globalData = {}; // 暫存從後台抓來的資料
 
-        // ---------------------------------------------
-        // ✨ 新功能：自動載入商品列表
-        // ---------------------------------------------
-        function loadProducts() {
-            // 呼叫 GAS，加上 action=getProducts
-            fetch(SCRIPT_URL + '?action=getProducts') 
+        const themeSelect = document.getElementById('themeSelect');
+        const productSection = document.getElementById('productSection');
+        const productList = document.getElementById('productList');
+        const infoCard = document.getElementById('infoCard');
+        const ruleText = document.getElementById('ruleText');
+        const bankText = document.getElementById('bankText');
+        const totalInput = document.getElementById('totalAmount');
+
+        // 1. 網頁載入時：去後台抓「主題」清單
+        window.addEventListener('load', () => {
+            fetch(SCRIPT_URL + '?action=getProducts')
             .then(res => res.json())
-            .then(products => {
-                // 清空選單，放回預設選項
-                select.innerHTML = '<option value="" disabled selected>請選擇服裝套組...</option>';
+            .then(data => {
+                globalData = data;
+                themeSelect.innerHTML = '<option value="" disabled selected>請選擇販售主題...</option>';
                 
-                if (!products || products.length === 0) {
-                     select.innerHTML += '<option disabled>暫無上架商品</option>';
-                     return;
+                // 檢查是否有資料
+                if(Object.keys(data).length === 0){
+                    themeSelect.innerHTML = '<option disabled>⚠️ 目前無上架主題</option>';
+                    return;
                 }
 
-                // 把抓到的商品一個一個加進去
-                products.forEach(name => {
+                // 產生主題選項
+                Object.keys(data).forEach(theme => {
                     let option = document.createElement('option');
-                    option.value = name; // 值 = 商品名稱
-                    option.text = name;  // 顯示文字 = 商品名稱
-                    select.appendChild(option);
+                    option.value = theme;
+                    option.text = theme;
+                    themeSelect.appendChild(option);
                 });
             })
             .catch(err => {
-                console.error("無法載入商品", err);
-                select.innerHTML = '<option disabled>⚠️ 商品列表讀取失敗</option>';
+                console.error(err);
+                themeSelect.innerHTML = '<option disabled>⚠️ 資料讀取失敗</option>';
             });
+        });
+
+        // 2. 當使用者選了「主題」
+        themeSelect.addEventListener('change', function() {
+            const theme = this.value;
+            const data = globalData[theme];
+            
+            if(!data) return;
+
+            // 顯示資訊卡 (規則 & 帳號)
+            infoCard.classList.remove('hidden');
+            ruleText.innerHTML = data.rules ? `📅 ${data.rules}` : '📅 本主題無特殊規範';
+            bankText.innerText = data.bankInfo || '無匯款資訊 (請聯繫管理員)';
+
+            // 生成商品列表 (複選框)
+            productSection.classList.remove('hidden');
+            productList.innerHTML = ''; // 清空舊的
+            
+            data.products.forEach((item, index) => {
+                // 建立精美的複選框卡片
+                const label = document.createElement('label');
+                label.className = "block cursor-pointer relative group";
+                label.innerHTML = `
+                    <input type="checkbox" name="product_check" value="${item.name}" data-price="${item.price}" class="chk-input absolute opacity-0 w-0 h-0">
+                    <div class="border border-gray-200 rounded-lg p-3 flex justify-between items-center transition-all hover:border-dream-accent bg-white">
+                        <div class="flex items-center gap-3">
+                            <div class="chk-icon w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all">✓</div>
+                            <span class="text-gray-700 text-sm font-medium">${item.name}</span>
+                        </div>
+                        <span class="text-gray-400 text-xs font-mono">$${item.price}</span>
+                    </div>
+                `;
+                productList.appendChild(label);
+            });
+
+            // 重置金額為 0
+            totalInput.value = 0;
+            updateTotal();
+        });
+
+        // 3. 當使用者勾選/取消商品 -> 計算總金額
+        productList.addEventListener('change', updateTotal);
+
+        function updateTotal() {
+            const checkboxes = document.querySelectorAll('input[name="product_check"]:checked');
+            let total = 0;
+            checkboxes.forEach(chk => {
+                total += parseInt(chk.dataset.price || 0);
+            });
+            // 數字跳動動畫
+            animateValue(totalInput, parseInt(totalInput.value), total, 300);
         }
 
-        // 網頁一打開就執行載入
-        window.addEventListener('load', loadProducts);
+        // 數字動畫效果
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.value = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
 
-        // ---------------------------------------------
-        // 原本的送出表單邏輯
-        // ---------------------------------------------
+        // 4. 送出表單
+        const form = document.getElementById('orderForm');
         form.addEventListener('submit', e => {
             e.preventDefault();
             
-            // UI 鎖定
+            // 收集已選商品
+            const checkedBoxes = document.querySelectorAll('input[name="product_check"]:checked');
+            if(checkedBoxes.length === 0) {
+                alert("請至少選擇一樣商品！");
+                return;
+            }
+
+            // 把選中的商品串成字串 "商品A, 商品B"
+            const selectedProducts = Array.from(checkedBoxes).map(cb => cb.value).join(", ");
+            const amount = totalInput.value;
+
+            // UI 鎖定 (防止重複按)
+            const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<span class="animate-pulse">傳送中...</span>';
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            btn.innerText = "傳送中...";
+            btn.classList.add('opacity-50');
 
             let formData = new FormData(form);
             let object = {};
             formData.forEach((value, key) => object[key] = value);
             
-            // 發送請求
+            // 覆寫成我們處理好的資料
+            object['product'] = selectedProducts;
+            object['amount'] = amount;
+            
+            // 發送給 GAS
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(object),
-                headers: { "Content-Type": "text/plain;charset=utf-8" } 
+                headers: { "Content-Type": "text/plain;charset=utf-8" }
             })
             .then(res => res.json())
             .then(data => {
                 if(data.result === "success"){
-                    // 成功：隱藏表單，顯示成功訊息
                     form.style.display = 'none';
-                    successMsg.classList.remove('hidden');
-                    successMsg.classList.add('fade-in');
+                    document.getElementById('successMsg').classList.remove('hidden');
                 } else {
-                    alert('系統錯誤：' + (data.msg || '未知錯誤'));
+                    alert('錯誤：' + data.msg);
                     resetBtn();
                 }
             })
             .catch(err => {
+                alert('連線失敗，請檢查網路');
                 console.error(err);
-                alert('連線失敗，請檢查網路或稍後再試。');
                 resetBtn();
             });
-        });
 
-        function resetBtn(){
-            btn.disabled = false;
-            btn.innerHTML = '確認送出訂單';
-            btn.classList.remove('opacity-50', 'cursor-not-allowed');
-        }
+            function resetBtn() {
+                btn.disabled = false;
+                btn.innerText = "確認送出訂單";
+                btn.classList.remove('opacity-50');
+            }
+        });
     </script>
 </body>
 </html>
