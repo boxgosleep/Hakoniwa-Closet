@@ -6,28 +6,34 @@
     <title>箱庭入夢 | 角色衣裝批發</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'dream-bg': '#f3f4f6', 
-                        'dream-accent': '#8b5cf6', 
-                        'dream-text': '#4b5563',
-                        'dream-card-bg': '#FFF9F5', // 類似你圖片的米色背景
+                        'dream-bg': '#FFF9FB', 
+                        'dream-accent': '#FF9ECD', 
+                        'dream-text': '#6B4A3E',
+                        'dream-card-bg': '#FFFFFF',
+                        'dream-pink-light': '#FFCBE4',
                     },
-                    fontFamily: { sans: ['"Helvetica Neue"', 'Arial', 'sans-serif'] }
+                    fontFamily: { sans: ['"M PLUS Rounded 1c"', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
+        body {
+            background-image: radial-gradient(var(--dream-pink-light) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 3px solid var(--dream-pink-light); }
         
         /* 複選框樣式 */
-        .chk-input:checked + div { border-color: #8b5cf6; background-color: #f5f3ff; }
+        .chk-input:checked + div { border-color: var(--dream-accent); background-color: #FFF0F5; }
         .chk-input:checked + div .chk-icon { opacity: 1; transform: scale(1); }
 
         /* 摺疊區塊動畫 */
@@ -38,108 +44,114 @@
         
         /* 讓 Sheet 裡的換行符號生效 */
         .whitespace-pre-wrap { white-space: pre-wrap; }
+
+        /* 輸入框與按鈕樣式 */
+        input, select, button { border-radius: 24px; }
+        input:focus, select:focus { box-shadow: 0 0 0 4px rgba(255, 158, 205, 0.3); border-color: var(--dream-accent); }
+        .btn-primary { background: linear-gradient(to bottom, var(--dream-accent), #F078A8); box-shadow: 0 4px 0 #DB6B97; color: white; border: none;}
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #DB6B97; }
+        .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 #DB6B97; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex items-center justify-center p-4">
+<body class="bg-dream-bg min-h-screen flex items-center justify-center p-4 text-dream-text">
 
     <div class="max-w-lg w-full fade-in relative pb-10">
         <div class="text-center mb-6">
-            <h1 class="text-3xl font-light tracking-widest text-gray-800 mb-1">HAKONIWA</h1>
-            <p class="text-xs text-gray-500 tracking-widest">箱庭入夢 · 數位批發部</p>
+            <h1 class="text-3xl font-bold tracking-widest text-dream-accent mb-1" style="text-shadow: 1px 1px 0px #fff;">HAKONIWA</h1>
+            <p class="text-xs text-dream-text tracking-widest">箱庭入夢 · 數位批發部</p>
         </div>
 
-        <div class="glass shadow-xl rounded-2xl p-8 border border-white/50">
+        <div class="glass shadow-xl rounded-[32px] p-8">
             <form id="orderForm" class="space-y-6">
                 <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
 
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">① 選擇主題 (Theme)</label>
+                    <label class="block text-xs font-bold text-dream-accent uppercase tracking-wider mb-2">① 選擇主題 (Theme)</label>
                     <div class="relative">
-                        <select id="themeSelect" class="w-full bg-gray-50 border border-gray-200 rounded px-3 py-3 appearance-none focus:border-dream-accent outline-none font-medium text-gray-700">
+                        <select id="themeSelect" class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 appearance-none focus:outline-none font-bold text-dream-text cursor-pointer">
                             <option value="" disabled selected>📦 讀取中...</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-dream-accent">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
                         </div>
                     </div>
                 </div>
 
                 <div id="infoSection" class="hidden space-y-4">
                     
-                    <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative overflow-hidden group">
-                        <div class="absolute top-0 left-0 w-1 h-full bg-dream-accent"></div>
-                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <div class="bg-white border-2 border-dream-pink-light rounded-[24px] p-5 shadow-sm relative overflow-hidden group">
+                        <h3 class="text-sm font-bold text-dream-accent uppercase tracking-wider mb-3 flex items-center gap-2">
                             <i class="fa-solid fa-building-columns"></i> Payment Info
                         </h3>
                         
                         <div id="bankContainer" class="space-y-3"></div>
                     </div>
 
-                    <details class="bg-dream-card-bg border border-orange-100 rounded-xl overflow-hidden group">
-                        <summary class="cursor-pointer p-4 font-bold text-gray-700 flex justify-between items-center hover:bg-orange-50 transition-colors select-none">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-scroll text-orange-400"></i> 購買須知 & 使用規範</span>
-                            <i class="fa-solid fa-chevron-down text-gray-400 transition-transform group-open:rotate-180"></i>
+                    <details class="bg-white border-2 border-dream-pink-light rounded-[24px] overflow-hidden group">
+                        <summary class="cursor-pointer p-4 font-bold text-dream-text flex justify-between items-center hover:bg-dream-pink-light/20 transition-colors select-none">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-scroll text-dream-accent"></i> 購買須知 & 使用規範</span>
+                            <i class="fa-solid fa-chevron-down text-dream-accent transition-transform group-open:rotate-180"></i>
                         </summary>
-                        <div class="p-5 border-t border-orange-100 text-sm text-gray-600 leading-relaxed whitespace-pre-wrap bg-white" id="ruleText">
+                        <div class="p-5 border-t-2 border-dream-pink-light text-sm text-dream-text leading-relaxed whitespace-pre-wrap" id="ruleText">
                             </div>
                     </details>
                 </div>
 
                 <div id="productSection" class="hidden fade-in">
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">② 選擇商品 (Select Items)</label>
-                    <div id="productList" class="space-y-2 max-h-80 overflow-y-auto pr-1 scrollbar-thin">
+                    <label class="block text-xs font-bold text-dream-accent uppercase tracking-wider mb-2">② 選擇商品 (Select Items)</label>
+                    <div id="productList" class="space-y-3 max-h-96 overflow-y-auto pr-1 scrollbar-thin">
                         </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Buyer Name</label>
-                        <input type="text" name="name" required placeholder="稱呼" class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-2 py-2 outline-none transition-colors">
+                        <label class="block text-xs font-bold text-dream-accent uppercase tracking-wider mb-1">Buyer Name</label>
+                        <input type="text" name="name" required placeholder="稱呼" class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 focus:outline-none transition-colors placeholder-dream-pink-light">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email</label>
-                        <input type="email" name="email" required placeholder="Email" class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-2 py-2 outline-none transition-colors">
+                        <label class="block text-xs font-bold text-dream-accent uppercase tracking-wider mb-1">Email</label>
+                        <input type="email" name="email" required placeholder="Email" class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 focus:outline-none transition-colors placeholder-dream-pink-light">
                     </div>
                 </div>
 
-                <div class="bg-gray-800 text-white p-5 rounded-xl shadow-lg">
-                    <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-4">
-                        <span class="text-xs font-bold text-gray-400 uppercase">Total Amount</span>
-                        <div class="text-2xl font-bold font-mono text-dream-accent">
-                            $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-24 text-right outline-none cursor-default text-white">
+                <div class="bg-dream-card-bg border-2 border-dream-pink-light p-5 rounded-[24px] shadow-sm">
+                    <div class="flex justify-between items-end mb-4 border-b-2 border-dream-pink-light pb-4">
+                        <span class="text-xs font-bold text-dream-accent uppercase">Total Amount</span>
+                        <div class="text-2xl font-bold font-mono text-dream-accent flex items-center">
+                            $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-24 text-right outline-none cursor-default text-dream-accent">
                         </div>
                     </div>
                     <div>
-                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                         <label class="block text-xs font-bold text-dream-accent uppercase tracking-wider mb-2 flex items-center gap-2">
                             <i class="fa-solid fa-receipt"></i> Last 5 Digits
                          </label>
                          <input type="text" name="account" required placeholder="請輸入匯款帳號後五碼" 
-                            class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 focus:border-dream-accent focus:bg-gray-600 outline-none text-center tracking-widest text-white placeholder-gray-500 transition-all">
+                            class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 focus:outline-none text-center tracking-widest text-dream-text placeholder-dream-pink-light transition-all">
                     </div>
                 </div>
 
-                <button type="submit" id="submitBtn" class="w-full bg-dream-accent text-white font-bold py-4 rounded-xl hover:bg-violet-600 transition-all transform hover:scale-[1.02] shadow-xl hover:shadow-2xl">
+                <button type="submit" id="submitBtn" class="w-full btn-primary font-bold py-4 text-lg transition-all transform shadow-md">
                     確認送出訂單
                 </button>
             </form>
 
             <div id="successMsg" class="hidden text-center mt-6 fade-in">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-check text-2xl text-green-500"></i>
+                <div class="w-20 h-20 bg-dream-pink-light/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-check text-3xl text-dream-accent"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-1">訂單已送出！</h3>
-                <p class="text-sm text-gray-500">請靜候核准，檔案將自動寄送至您的信箱。</p>
-                <button onclick="location.reload()" class="mt-6 px-6 py-2 border border-dream-accent text-dream-accent rounded-full text-sm hover:bg-dream-accent hover:text-white transition-colors">
+                <h3 class="text-2xl font-bold text-dream-text mb-2">訂單已送出！</h3>
+                <p class="text-sm text-dream-text/80">請靜候核准，檔案將自動寄送至您的信箱。</p>
+                <button onclick="location.reload()" class="mt-8 px-8 py-3 border-2 border-dream-accent text-dream-accent rounded-full font-bold hover:bg-dream-accent hover:text-white transition-colors">
                     再下一單
                 </button>
             </div>
         </div>
         
-        <div class="text-center mt-8 text-xs text-gray-400">&copy; 2026 Hakoniwa Studio.</div>
+        <div class="text-center mt-8 text-xs text-dream-pink-light font-bold">&copy; 2026 Hakoniwa Studio.</div>
     </div>
 
     <script>
-        // 👇👇👇 請換成你的新 GAS 網址 👇👇👇
+        // 👇👇👇 請確認這裡是你提供的網址 👇👇👇
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
 
         let globalData = {}; 
@@ -189,7 +201,6 @@
             ruleText.innerText = data.rules || "本主題無特殊規範。";
 
             // --- B. 處理匯款資訊 (自動拆解) ---
-            // 邏輯：檢查有沒有逗號。格式 "822, 123456" -> 代碼 822 / 帳號 123456
             const rawBank = data.bankInfo || "";
             let bankHTML = "";
 
@@ -201,14 +212,14 @@
 
                 bankHTML = `
                     <div class="flex items-center justify-between text-sm">
-                        <span class="text-gray-500">銀行代碼</span>
-                        <span class="font-mono font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded">${bankCode}</span>
+                        <span class="text-dream-text/70 font-bold">銀行代碼</span>
+                        <span class="font-mono font-bold text-dream-text bg-dream-pink-light/20 px-3 py-1 rounded-full">${bankCode}</span>
                     </div>
-                    <div class="flex items-center justify-between text-sm mt-2">
-                        <span class="text-gray-500">銀行帳號</span>
-                        <div class="flex items-center gap-2">
-                            <span class="font-mono font-bold text-gray-800 text-lg tracking-wider" id="acctNum">${bankAcct}</span>
-                            <button type="button" onclick="copyText('${bankAcct}')" class="text-xs bg-dream-accent text-white px-2 py-1 rounded hover:bg-violet-600 active:scale-95 transition-all" title="複製帳號">
+                    <div class="flex items-center justify-between text-sm mt-3">
+                        <span class="text-dream-text/70 font-bold">銀行帳號</span>
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono font-bold text-dream-text text-lg tracking-wider" id="acctNum">${bankAcct}</span>
+                            <button type="button" onclick="copyText('${bankAcct}')" class="text-xs bg-dream-accent text-white px-3 py-1.5 rounded-full hover:bg-dream-accent/80 active:scale-95 transition-all font-bold flex items-center gap-1" title="複製帳號">
                                 <i class="fa-regular fa-copy"></i> 複製
                             </button>
                         </div>
@@ -216,25 +227,37 @@
                 `;
             } else {
                 // 普通模式：沒有逗號，直接顯示整段文字
-                bankHTML = `<div class="text-sm font-mono text-gray-700 whitespace-pre-wrap">${rawBank || "無匯款資訊"}</div>`;
+                bankHTML = `<div class="text-sm font-mono text-dream-text whitespace-pre-wrap">${rawBank || "無匯款資訊"}</div>`;
             }
             bankContainer.innerHTML = bankHTML;
 
-            // --- C. 生成商品列表 ---
+            // --- C. 生成商品列表 (含預覽圖) ---
             productList.innerHTML = ''; 
             data.products.forEach((item) => {
                 const label = document.createElement('label');
                 label.className = "block cursor-pointer relative group fade-in";
+                
+                // 判斷是否有圖片連結
+                let imgHTML = '';
+                if (item.img) {
+                    imgHTML = `<img src="${item.img}" alt="${item.name}" class="w-12 h-12 object-cover rounded-lg border-2 border-dream-pink-light mr-3">`;
+                } else {
+                    imgHTML = `<div class="w-12 h-12 bg-dream-pink-light/20 rounded-lg border-2 border-dream-pink-light mr-3 flex items-center justify-center text-dream-accent"><i class="fa-solid fa-image"></i></div>`;
+                }
+
                 label.innerHTML = `
                     <input type="checkbox" name="product_check" value="${item.name}" data-price="${item.price}" class="chk-input absolute opacity-0 w-0 h-0">
-                    <div class="border border-gray-200 rounded-xl p-4 flex justify-between items-center transition-all hover:border-dream-accent hover:shadow-md bg-white">
-                        <div class="flex items-center gap-3">
-                            <div class="chk-icon w-6 h-6 rounded-full border-2 border-gray-200 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all shadow-sm">
-                                <i class="fa-solid fa-check text-xs"></i>
+                    <div class="border-2 border-dream-pink-light rounded-[20px] p-3 flex justify-between items-center transition-all hover:border-dream-accent hover:shadow-md bg-white">
+                        <div class="flex items-center overflow-hidden">
+                            ${imgHTML}
+                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                <div class="chk-icon w-6 h-6 rounded-full border-2 border-dream-pink-light flex-shrink-0 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all shadow-sm">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </div>
+                                <span class="text-dream-text font-bold truncate">${item.name}</span>
                             </div>
-                            <span class="text-gray-700 font-bold">${item.name}</span>
                         </div>
-                        <span class="text-dream-accent font-mono font-bold bg-violet-50 px-2 py-1 rounded-lg">$${item.price}</span>
+                        <span class="text-dream-accent font-mono font-bold bg-dream-pink-light/20 px-2 py-1 rounded-lg flex-shrink-0 ml-2">$${item.price}</span>
                     </div>
                 `;
                 productList.appendChild(label);
@@ -248,14 +271,13 @@
         // 3. 複製功能小工具
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
-                // 簡單的提示效果，把按鈕文字暫時變成 "已複製"
                 const btn = event.target.closest('button');
                 const originalHTML = btn.innerHTML;
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> OK!';
-                btn.classList.add('bg-green-500');
+                btn.classList.add('bg-green-400');
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
-                    btn.classList.remove('bg-green-500');
+                    btn.classList.remove('bg-green-400');
                 }, 1500);
             }).catch(err => {
                 console.error('複製失敗', err);
@@ -293,7 +315,7 @@
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 傳送中...';
-            btn.classList.add('opacity-50');
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
 
             let formData = new FormData(form);
             let object = {};
@@ -325,7 +347,7 @@
             function resetBtn() {
                 btn.disabled = false;
                 btn.innerText = "確認送出訂單";
-                btn.classList.remove('opacity-50');
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
             }
         });
     </script>
