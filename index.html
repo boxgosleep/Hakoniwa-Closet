@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箱庭入夢 | 角色衣裝批發</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dream-bg': '#f3f4f6', // 背景灰白
+                        'dream-card': '#ffffff', // 卡片白
+                        'dream-accent': '#8b5cf6', // 夢幻紫
+                        'dream-text': '#4b5563', // 深灰字
+                    },
+                    fontFamily: {
+                        sans: ['"Helvetica Neue"', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 增加一點淡入動畫 */
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 毛玻璃效果 */
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-lg w-full fade-in relative">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-light tracking-widest text-gray-800 mb-2">HAKONIWA</h1>
+            <p class="text-sm text-gray-500 tracking-widest">箱庭入夢 · 數位批發部</p>
+        </div>
+
+        <div class="glass shadow-xl rounded-2xl p-8 border border-white/50">
+            <form id="orderForm" class="space-y-6">
+                
+                <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Buyer Name</label>
+                    <input type="text" name="name" required placeholder="請輸入您的稱呼" 
+                        class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email Address</label>
+                    <input type="email" name="email" required placeholder="接收檔案用" 
+                        class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
+                    <p class="text-xs text-gray-400 mt-1">* 下單後系統將自動發送數位連結至此信箱</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Select Item</label>
+                    <div class="relative">
+                        <select name="product" required 
+                            class="w-full bg-gray-50 border border-gray-200 rounded px-3 py-3 appearance-none focus:border-dream-accent outline-none">
+                            <option value="" disabled selected>請選擇服裝套組...</option>
+                            <option value="OC_SET_A">🥀 哥德蘿莉套裝 (數位版)</option>
+                            <option value="OC_SET_B">🪐 未來賽博套裝 (數位版)</option>
+                            <option value="OC_SET_C">🦋 森之精靈套裝 (數位版)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="w-1/2">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Amount</label>
+                        <input type="text" name="quantity" required placeholder="金額" 
+                            class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
+                    </div>
+                    <div class="w-1/2">
+                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Last 5 Digits</label>
+                         <input type="text" name="account" required placeholder="帳號後五碼" 
+                            class="w-full bg-gray-50 border-b-2 border-gray-200 focus:border-dream-accent px-3 py-2 outline-none transition-colors">
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn"
+                    class="w-full bg-gray-800 text-white font-medium py-3 rounded-lg hover:bg-gray-700 transition-all transform hover:scale-[1.02] shadow-lg">
+                    確認送出訂單
+                </button>
+            </form>
+
+            <div id="successMsg" class="hidden text-center mt-6">
+                <div class="text-4xl mb-2">✨</div>
+                <h3 class="text-lg font-bold text-gray-700">訂單已送出</h3>
+                <p class="text-sm text-gray-500">請靜候管理員核准，檔案將會自動寄出。</p>
+                <button onclick="location.reload()" class="mt-4 text-xs text-dream-accent underline">再下一單</button>
+            </div>
+        </div>
+
+        <div class="text-center mt-8 text-xs text-gray-400">
+            &copy; 2024 Hakoniwa Studio. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        // 👇👇👇 請把這裡換成你剛剛部署拿到的 GAS 網址 👇👇👇
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
+
+        const form = document.getElementById('orderForm');
+        const btn = document.getElementById('submitBtn');
+        const successMsg = document.getElementById('successMsg');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            // UI 鎖定
+            btn.disabled = true;
+            btn.innerHTML = '<span class="animate-pulse">傳送中...</span>';
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            let formData = new FormData(form);
+            let object = {};
+            formData.forEach((value, key) => object[key] = value);
+            
+            // 發送請求
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(object),
+                headers: { "Content-Type": "text/plain;charset=utf-8" } // 避開 CORS 檢查
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === "success"){
+                    // 成功：隱藏表單，顯示成功訊息
+                    form.style.display = 'none';
+                    successMsg.classList.remove('hidden');
+                    successMsg.classList.add('fade-in');
+                } else {
+                    alert('系統錯誤：' + (data.msg || '未知錯誤'));
+                    resetBtn();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('連線失敗，請檢查網路或稍後再試。');
+                resetBtn();
+            });
+        });
+
+        function resetBtn(){
+            btn.disabled = false;
+            btn.innerHTML = '確認送出訂單';
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    </script>
+</body>
+</html>
