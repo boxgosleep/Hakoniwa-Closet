@@ -13,16 +13,10 @@
             theme: {
                 extend: {
                     colors: {
-                        /* 背景：溫柔米灰 */
                         'dream-bg-flat': '#F2EBE5', 
-                        /* 卡片：純白 */
                         'dream-card-flat': '#FFFFFF',
-                        /* 邊框：加深的奶茶色 (讓框框明顯！) */
                         'dream-border-visible': '#DDBBB0',
-                        /* 輸入框底色：淡粉膚色 (讓欄位明顯！) */
                         'dream-input-bg': '#FFF5F7',
-                        
-                        /* 按鈕與強調色 */
                         'dream-accent': '#FF8DA1', 
                         'dream-text': '#7D6C65',
                     },
@@ -30,7 +24,7 @@
                         sans: ['"cwTeXYen"', '"Microsoft JhengHei"', 'sans-serif'] 
                     },
                     keyframes: {
-                        /* ✨ 果凍彈跳特效 ✨ */
+                        /* 果凍彈跳特效 */
                         jelly: {
                             '0%': { transform: 'scale(1, 1)' },
                             '30%': { transform: 'scale(1.25, 0.75)' },
@@ -39,10 +33,16 @@
                             '65%': { transform: 'scale(0.95, 1.05)' },
                             '75%': { transform: 'scale(1.05, 0.95)' },
                             '100%': { transform: 'scale(1, 1)' },
+                        },
+                        /* 箭頭上下浮動 */
+                        bounceSmall: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-3px)' },
                         }
                     },
                     animation: {
                         jelly: 'jelly 0.6s',
+                        bounceSmall: 'bounceSmall 1s infinite',
                     }
                 }
             }
@@ -58,7 +58,7 @@
         .fade-in { animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 卡片樣式：扁平化，無陰影 */
+        /* 卡片樣式 */
         .flat-card { 
             background-color: var(--dream-card-flat);
             border: 2px solid var(--dream-border-visible);
@@ -68,46 +68,60 @@
         /* 複選框樣式 */
         .chk-input:checked + div { 
             border-color: var(--dream-accent); 
-            background-color: #FFEBF0; /* 選中後變深一點的粉 */
+            background-color: #FFEBF0; 
         }
-        
-        /* ✨ 可愛特效：選中時愛心會果凍跳動 ✨ */
         .chk-input:checked + div .chk-icon i {
             animation: jelly 0.6s;
         }
         
-        /* 輸入框與按鈕樣式 */
-        input, select, button, textarea { 
+        /* 一般輸入框 */
+        input, button, textarea { 
             border-radius: 999px;
             font-family: 'cwTeXYen', sans-serif; 
-            /* 這裡設定了底色和邊框，讓它預設就很明顯 */
             background-color: var(--dream-input-bg); 
             border: 2px solid var(--dream-border-visible);
         }
         
-        input:focus, select:focus, textarea:focus { 
-            border-color: var(--dream-accent); 
-            background-color: #FFF; /* 點下去變白 */
-            outline: none; 
+        /* ✨ 下拉選單專屬樣式 ✨ */
+        select {
+            border-radius: 999px;
+            font-family: 'cwTeXYen', sans-serif;
+            background-color: #FFF0F5; /* 比輸入框再粉一點，代表它是特別的 */
+            border: 2px solid var(--dream-border-visible);
+            cursor: pointer;
+            color: var(--dream-text);
+            /* 隱藏預設醜醜的箭頭，改用我們自己的 */
+            appearance: none; 
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
         
-        /* ✨ 送出按鈕：預設就是實心顯眼的顏色 ✨ */
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--dream-accent); 
+            background-color: #FFF; 
+            outline: none; 
+        }
+
+        /* 讓下拉選單的容器 hover 時，裡面的箭頭動起來 */
+        .select-wrapper:hover .select-arrow {
+            animation: bounceSmall 1s infinite;
+            color: var(--dream-accent);
+        }
+        
+        /* 送出按鈕 */
         .btn-submit-flat { 
             background-color: var(--dream-accent); 
             color: #FFFFFF !important; 
             border: none;
-            /* 稍微加粗字體 */
             font-weight: bold;
             letter-spacing: 1px;
             transition: all 0.2s;
         }
         .btn-submit-flat:hover { 
-            background-color: #FF7A92; /* 滑鼠移過去稍微變深 */
-            transform: translateY(-2px); /* 微微上浮 */
+            background-color: #FF7A92; 
+            transform: translateY(-2px); 
         }
-        .btn-submit-flat:active { 
-            transform: scale(0.98); 
-        }
+        .btn-submit-flat:active { transform: scale(0.98); }
         .btn-submit-flat:disabled {
             background-color: #E0E0E0;
             color: #BCBCBC !important;
@@ -163,12 +177,13 @@
                     <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">
                         選擇主題 (Theme)
                     </label>
-                    <div class="relative">
-                        <select id="themeSelect" class="w-full px-6 py-3 appearance-none font-bold text-dream-text cursor-pointer hover:border-dream-accent transition-colors text-lg">
+                    <div class="relative select-wrapper">
+                        <select id="themeSelect" class="w-full px-6 py-3.5 font-bold text-dream-text text-lg transition-colors">
                             <option value="" disabled selected>讀取資料中...</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-dream-accent">
-                            <i class="fa-solid fa-caret-down text-lg"></i>
+                        
+                        <div class="select-arrow pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-dream-border-visible transition-colors duration-300">
+                            <i class="fa-solid fa-circle-chevron-down text-xl"></i>
                         </div>
                     </div>
                 </div>
