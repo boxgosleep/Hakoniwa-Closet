@@ -36,17 +36,11 @@
         .chk-input:checked + div { border-color: var(--dream-accent); background-color: #FFF0F5; box-shadow: 0 4px 10px rgba(255, 158, 205, 0.3); }
         .chk-input:checked + div .chk-icon { opacity: 1; transform: scale(1); }
 
-        /* 摺疊區塊動畫 */
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        
-        /* 讓 Sheet 裡的換行符號生效 */
-        .whitespace-pre-wrap { white-space: pre-wrap; }
-
         /* 輸入框與按鈕樣式 */
         input, select, button, textarea { border-radius: 20px; }
         input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(255, 158, 205, 0.3); border-color: var(--dream-accent); outline: none; }
         
+        /* 按鈕特效 */
         .btn-primary { 
             background: linear-gradient(to bottom, var(--dream-accent), #F078A8); 
             box-shadow: 0 4px 0 #DB6B97; 
@@ -56,12 +50,17 @@
         }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #DB6B97; }
         .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 #DB6B97; }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; filter: grayscale(50%); }
 
         /* 滾動條美化 */
         .scrollbar-thin::-webkit-scrollbar { width: 6px; }
         .scrollbar-thin::-webkit-scrollbar-track { background: #fff; }
         .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--dream-pink-light); border-radius: 20px; }
+        
+        /* 隱藏細節標籤預設箭頭 */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        .whitespace-pre-wrap { white-space: pre-wrap; }
     </style>
 </head>
 <body class="bg-dream-bg min-h-screen flex items-center justify-center p-4 text-dream-text">
@@ -95,7 +94,6 @@
                 </div>
 
                 <div id="infoSection" class="hidden space-y-4 fade-in">
-                    
                     <div class="bg-white border-2 border-dream-pink-light rounded-[24px] p-5 shadow-sm overflow-hidden">
                         <h3 class="text-sm font-bold text-dream-accent uppercase tracking-wider mb-3 flex items-center gap-2 border-b-2 border-dream-pink-light/30 pb-2">
                             <i class="fa-solid fa-building-columns"></i> Payment Info
@@ -129,25 +127,28 @@
                     </div>
                 </div>
 
-                <div id="totalSection" class="hidden bg-dream-card-bg border-2 border-dream-pink-light p-5 rounded-[24px] shadow-sm fade-in">
-                    <div class="flex justify-between items-end mb-4 border-b-2 border-dream-pink-light pb-4">
-                        <span class="text-xs font-bold text-dream-accent uppercase">Total Amount</span>
-                        <div class="text-2xl font-bold font-mono text-dream-accent flex items-center">
-                            $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-24 text-right outline-none cursor-default text-dream-accent">
+                <div id="checkoutSection" class="hidden space-y-5 fade-in">
+                    <div class="bg-dream-card-bg border-2 border-dream-pink-light p-5 rounded-[24px] shadow-sm">
+                        <div class="flex justify-between items-end mb-4 border-b-2 border-dream-pink-light pb-4">
+                            <span class="text-xs font-bold text-dream-accent uppercase">Total Amount</span>
+                            <div class="text-2xl font-bold font-mono text-dream-accent flex items-center">
+                                $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-24 text-right outline-none cursor-default text-dream-accent">
+                            </div>
+                        </div>
+                        <div>
+                             <label class="block text-xs font-bold text-dream-accent uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-receipt"></i> 帳號後五碼 / 備註
+                             </label>
+                             <input type="text" name="account" required placeholder="請輸入匯款後五碼..." 
+                                class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 text-center tracking-widest text-dream-text placeholder-dream-pink-light/70 transition-all">
                         </div>
                     </div>
-                    <div>
-                         <label class="block text-xs font-bold text-dream-accent uppercase tracking-wider mb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-receipt"></i> 帳號後五碼 / 備註
-                         </label>
-                         <input type="text" name="account" required placeholder="請輸入匯款後五碼..." 
-                            class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 text-center tracking-widest text-dream-text placeholder-dream-pink-light/70 transition-all">
-                    </div>
-                </div>
 
-                <button type="submit" id="submitBtn" class="w-full btn-primary font-bold py-4 text-lg rounded-[24px] hidden fade-in">
-                    確認送出訂單
-                </button>
+                    <button type="submit" id="submitBtn" class="w-full btn-primary font-bold py-4 text-lg rounded-[24px] shadow-lg flex items-center justify-center gap-2">
+                        <span>確認送出訂單</span>
+                        <i class="fa-solid fa-paper-plane text-sm"></i>
+                    </button>
+                </div>
             </form>
 
             <div id="successMsg" class="hidden text-center mt-6 fade-in py-10">
@@ -166,7 +167,7 @@
     </div>
 
     <script>
-        // 👇 請再次確認這裡的網址是不是最新的 GAS 網址 👇
+        // 👇 請再次確認這裡的網址 👇
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
 
         let globalData = {}; 
@@ -175,8 +176,7 @@
         const infoSection = document.getElementById('infoSection');
         const productSection = document.getElementById('productSection');
         const buyerSection = document.getElementById('buyerSection');
-        const totalSection = document.getElementById('totalSection');
-        const submitBtn = document.getElementById('submitBtn');
+        const checkoutSection = document.getElementById('checkoutSection'); // 新的區塊ID
         
         const productList = document.getElementById('productList');
         const ruleText = document.getElementById('ruleText');
@@ -184,22 +184,19 @@
         const totalInput = document.getElementById('totalAmount');
         const loadingOverlay = document.getElementById('loadingOverlay');
 
-        // 1. 初始化：讀取資料
+        // 1. 初始化
         window.addEventListener('load', () => {
             fetch(SCRIPT_URL + '?action=getProducts')
             .then(res => res.json())
             .then(data => {
-                loadingOverlay.style.display = 'none'; // 隱藏載入畫面
+                loadingOverlay.style.display = 'none';
                 globalData = data;
-                
                 themeSelect.innerHTML = '<option value="" disabled selected>🌸 請點此選擇販售主題...</option>';
                 
-                // 防呆：如果沒有資料
                 if(Object.keys(data).length === 0){
                     themeSelect.innerHTML = '<option disabled>⚠️ 目前沒有上架的主題</option>';
                     return;
                 }
-
                 Object.keys(data).forEach(theme => {
                     let option = document.createElement('option');
                     option.value = theme;
@@ -209,12 +206,7 @@
             })
             .catch(err => {
                 console.error(err);
-                loadingOverlay.innerHTML = `
-                    <i class="fa-solid fa-triangle-exclamation text-3xl text-red-400 mb-3"></i>
-                    <span class="text-red-800 font-bold text-sm">資料讀取失敗QQ</span>
-                    <span class="text-xs text-red-500 mt-2">請檢查網路或聯繫管理員</span>
-                    <button onclick="location.reload()" class="mt-4 text-xs underline">重試</button>
-                `;
+                loadingOverlay.innerHTML = '<span class="text-red-500 font-bold">資料讀取失敗，請重整試試</span>';
             });
         });
 
@@ -222,31 +214,24 @@
         themeSelect.addEventListener('change', function() {
             const theme = this.value;
             const data = globalData[theme];
-            
-            if(!data) {
-                alert("讀取該主題資料失敗 (>_<)");
-                return;
-            }
+            if(!data) return;
 
-            // 顯示所有區塊
+            // 顯示所有區塊 (這次只要開這個 checkoutSection，按鈕就會一起出來)
             infoSection.classList.remove('hidden');
             productSection.classList.remove('hidden');
             buyerSection.classList.remove('hidden');
-            totalSection.classList.remove('hidden');
-            submitBtn.classList.remove('hidden');
+            checkoutSection.classList.remove('hidden'); 
 
-            // --- A. 處理規範 ---
+            // A. 規範
             ruleText.innerText = data.rules || "本主題無特殊規範。";
 
-            // --- B. 處理匯款資訊 (自動拆解) ---
+            // B. 匯款資訊
             const rawBank = data.bankInfo || "";
             let bankHTML = "";
-
             if (rawBank.includes(",") || rawBank.includes("，")) {
                 let parts = rawBank.split(/,|，/); 
                 let bankCode = parts[0].trim();
                 let bankAcct = parts[1] ? parts[1].trim() : "";
-
                 bankHTML = `
                     <div class="flex items-center justify-between text-sm">
                         <span class="text-dream-text/70 font-bold">銀行代碼</span>
@@ -256,66 +241,49 @@
                         <span class="text-dream-text/70 font-bold">銀行帳號</span>
                         <div class="flex items-center gap-2">
                             <span class="font-mono font-bold text-dream-text text-base tracking-wider">${bankAcct}</span>
-                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-8 h-8 flex items-center justify-center bg-dream-accent text-white rounded-full hover:bg-dream-accent/80 transition-all shadow-sm" title="複製">
+                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-8 h-8 flex items-center justify-center bg-dream-accent text-white rounded-full hover:bg-dream-accent/80 transition-all shadow-sm">
                                 <i class="fa-regular fa-copy text-xs"></i>
                             </button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             } else {
                 bankHTML = `<div class="text-sm font-mono text-dream-text whitespace-pre-wrap">${rawBank || "無匯款資訊"}</div>`;
             }
             bankContainer.innerHTML = bankHTML;
 
-            // --- C. 生成商品列表 (含圖片連結轉換與防呆) ---
+            // C. 商品列表
             productList.innerHTML = ''; 
             data.products.forEach((item) => {
                 const label = document.createElement('label');
                 label.className = "block cursor-pointer relative group fade-in";
                 
-                // 處理圖片連結：若是 Google Drive 連結，嘗試自動轉換
                 let imgSrc = item.img;
+                // 簡易轉換 Google Drive 連結
                 if(imgSrc && imgSrc.includes("drive.google.com") && imgSrc.includes("/view")) {
-                    // 簡易轉換嘗試
                     const idMatch = imgSrc.match(/\/d\/(.+?)\//);
-                    if(idMatch) {
-                        imgSrc = `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
-                    }
+                    if(idMatch) imgSrc = `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
                 }
-
-                // 圖片 HTML (含失敗替代圖)
-                const imgHTML = `
-                    <img src="${imgSrc}" 
-                        onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFCBE4/white?text=No+Img'; this.classList.add('opacity-50');"
-                        alt="${item.name}" 
-                        class="w-14 h-14 object-cover rounded-xl border-2 border-dream-pink-light mr-3 bg-white"
-                    >`;
 
                 label.innerHTML = `
                     <input type="checkbox" name="product_check" value="${item.name}" data-price="${item.price}" class="chk-input absolute opacity-0 w-0 h-0">
                     <div class="border-2 border-dream-pink-light rounded-[20px] p-3 flex justify-between items-center transition-all hover:border-dream-accent hover:shadow-md bg-white">
                         <div class="flex items-center overflow-hidden w-full">
-                            ${item.img ? imgHTML : '<div class="w-14 h-14 bg-dream-pink-light/30 rounded-xl border-2 border-dream-pink-light mr-3 flex items-center justify-center text-dream-accent"><i class="fa-solid fa-shirt"></i></div>'}
+                            <img src="${imgSrc}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFCBE4/white?text=No+Img'; this.classList.add('opacity-50');" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl border-2 border-dream-pink-light mr-3 bg-white">
                             <div class="flex flex-col min-w-0 pr-2">
                                 <span class="text-dream-text font-bold text-sm truncate leading-tight">${item.name}</span>
                                 <span class="text-xs text-dream-text/50 mt-1">NT$ ${item.price}</span>
                             </div>
                         </div>
-                        
                         <div class="chk-icon w-6 h-6 rounded-full border-2 border-dream-pink-light flex-shrink-0 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all shadow-sm ml-2">
                             <i class="fa-solid fa-check text-[10px]"></i>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 productList.appendChild(label);
             });
-
-            // 重置金額
             totalInput.value = 0;
             updateTotal();
         });
 
-        // 3. 複製功能小工具
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalIcon = btnElement.innerHTML;
@@ -323,22 +291,16 @@
                 btnElement.classList.add('bg-green-400', 'border-green-400');
                 setTimeout(() => {
                     btnElement.innerHTML = originalIcon;
-                    btnElement.classList.remove('bg-green-400', 'border-green-400');
+                    btnElement.classList.remove('bg-green-400');
                 }, 1500);
             });
         }
 
-        // 4. 計算總金額
         productList.addEventListener('change', updateTotal);
         function updateTotal() {
             const checkboxes = document.querySelectorAll('input[name="product_check"]:checked');
             let total = 0;
-            checkboxes.forEach(chk => { 
-                // 確保價格是數字，如果出錯預設為 0
-                let p = parseInt(chk.dataset.price);
-                if(isNaN(p)) p = 0;
-                total += p; 
-            });
+            checkboxes.forEach(chk => { total += parseInt(chk.dataset.price || 0); });
             animateValue(totalInput, parseInt(totalInput.value) || 0, total, 300);
         }
 
@@ -353,22 +315,21 @@
             window.requestAnimationFrame(step);
         }
 
-        // 5. 送出訂單
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', e => {
             e.preventDefault();
             const checkedBoxes = document.querySelectorAll('input[name="product_check"]:checked');
-            if(checkedBoxes.length === 0) { alert("⚠️ 請問要購買什麼呢？請至少選擇一樣商品喔！"); return; }
+            if(checkedBoxes.length === 0) { alert("⚠️ 請至少選擇一樣商品喔！"); return; }
 
             const btn = document.getElementById('submitBtn');
+            const originalBtnContent = btn.innerHTML;
+            
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 小精靈傳送中...';
-            btn.classList.add('opacity-70', 'cursor-not-allowed');
 
             let formData = new FormData(form);
             let object = {};
             formData.forEach((value, key) => object[key] = value);
-            
             object['product'] = Array.from(checkedBoxes).map(cb => cb.value).join(", ");
             object['amount'] = totalInput.value;
 
@@ -385,19 +346,17 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     alert('發生錯誤：' + data.msg);
-                    resetBtn();
+                    resetBtn(originalBtnContent);
                 }
             })
             .catch(err => {
                 alert('連線失敗，請檢查網路或稍後再試 QQ');
-                console.error(err);
-                resetBtn();
+                resetBtn(originalBtnContent);
             });
 
-            function resetBtn() {
+            function resetBtn(content) {
                 btn.disabled = false;
-                btn.innerText = "確認送出訂單";
-                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                btn.innerHTML = content;
             }
         });
     </script>
