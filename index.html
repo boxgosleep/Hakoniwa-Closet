@@ -6,7 +6,6 @@
     <title>箱庭入夢 | 角色衣裝批發</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/cwtexyen.css">
     
     <script>
@@ -14,15 +13,23 @@
             theme: {
                 extend: {
                     colors: {
-                        'dream-bg': '#FFF9FB', 
-                        'dream-accent': '#FF9ECD', 
-                        'dream-text': '#6B4A3E',
+                        'dream-bg': '#FFF0F5', /* 更淺的粉底 */
+                        'dream-accent': '#FF8DA1', /* 稍微深一點的粉紅，讓字更清楚 */
+                        'dream-text': '#7D6C65', /* 像巧克力的深褐色 */
                         'dream-card-bg': '#FFFFFF',
-                        'dream-pink-light': '#FFCBE4',
+                        'dream-pink-light': '#FFDDE4',
                     },
                     fontFamily: { 
-                        // 設定字體優先順序：圓體 -> 微軟正黑體
                         sans: ['"cwTeXYen"', '"Microsoft JhengHei"', 'sans-serif'] 
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -30,152 +37,213 @@
     </script>
     <style>
         body {
-            background-image: radial-gradient(var(--dream-pink-light) 1px, transparent 1px);
-            background-size: 20px 20px;
-            /* 確保字體套用 */
+            /* 背景改成可愛的愛心點點（如果瀏覽器支援）或圓點 */
+            background-image: radial-gradient(#FFCBE4 2px, transparent 2px);
+            background-size: 30px 30px;
             font-family: 'cwTeXYen', 'Microsoft JhengHei', sans-serif;
+            color: var(--dream-text);
         }
-        .fade-in { animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 3px solid var(--dream-pink-light); }
         
-        /* 複選框樣式 */
-        .chk-input:checked + div { border-color: var(--dream-accent); background-color: #FFF0F5; box-shadow: 0 4px 10px rgba(255, 158, 205, 0.3); }
-        .chk-input:checked + div .chk-icon { opacity: 1; transform: scale(1); }
-
-        /* 輸入框與按鈕樣式 */
-        input, select, button, textarea { border-radius: 20px; font-family: 'cwTeXYen', sans-serif; }
-        input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(255, 158, 205, 0.3); border-color: var(--dream-accent); outline: none; }
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 按鈕樣式 (加強背景設定防止文字消失) */
-        .btn-primary { 
-            background-color: #FF9ECD; /* 預設底色 */
-            background: linear-gradient(to bottom, var(--dream-accent), #F078A8); 
-            box-shadow: 0 4px 0 #DB6B97; 
-            color: #FFFFFF !important; /* 強制白字 */
-            border: none;
-            transition: all 0.2s;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.1); /* 讓字更清楚 */
+        /* 玻璃磨砂質感增強 */
+        .glass { 
+            background: rgba(255, 255, 255, 0.92); 
+            backdrop-filter: blur(8px); 
+            border: 4px dashed #FFCBE4; /* 改成虛線蕾絲邊框 */
+            box-shadow: 0 10px 40px rgba(255, 182, 193, 0.4);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #DB6B97; }
-        .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 #DB6B97; }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; filter: grayscale(50%); }
+        
+        /* 複選框樣式：愛心化 */
+        .chk-input:checked + div { 
+            border-color: #FF8DA1; 
+            background-color: #FFF5F7; 
+            box-shadow: 0 4px 12px rgba(255, 141, 161, 0.2); 
+        }
+        
+        /* 輸入框樣式：膠囊狀 */
+        input, select, button, textarea { 
+            border-radius: 999px; /* 膠囊圓角 */
+            font-family: 'cwTeXYen', sans-serif; 
+        }
+        input:focus, select:focus, textarea:focus { 
+            box-shadow: 0 0 0 4px rgba(255, 203, 228, 0.5); 
+            border-color: #FF8DA1; 
+            outline: none; 
+        }
+        
+        /* ✨ 送出按鈕專屬樣式 ✨ */
+        .btn-submit-dream { 
+            background-color: #FFB7C5; /* 草莓牛奶粉 */
+            color: #FFFFFF !important; 
+            border: 3px solid #fff; /* 白邊讓它更像糖果 */
+            box-shadow: 0 6px 0 #FF91A4, 0 10px 10px rgba(255, 145, 164, 0.3); /* 立體陰影 */
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 1px 1px 2px rgba(200, 100, 100, 0.3); /* 字體輕微陰影 */
+        }
+        .btn-submit-dream:hover { 
+            background-color: #FFC1CE; 
+            transform: translateY(-4px); 
+            box-shadow: 0 8px 0 #FF91A4, 0 15px 20px rgba(255, 145, 164, 0.4); 
+        }
+        .btn-submit-dream:active { 
+            transform: translateY(2px); 
+            box-shadow: 0 2px 0 #FF91A4; 
+        }
+        .btn-submit-dream:disabled {
+            background-color: #E0E0E0;
+            box-shadow: none;
+            border-color: #ccc;
+            color: #999 !important;
+            cursor: not-allowed;
+        }
 
-        .scrollbar-thin::-webkit-scrollbar { width: 6px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: #fff; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--dream-pink-light); border-radius: 20px; }
+        /* 滾動條美化 */
+        .scrollbar-thin::-webkit-scrollbar { width: 8px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: #FFF0F5; border-radius: 10px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #FFCBE4; border-radius: 10px; border: 2px solid #FFF0F5; }
         
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
         .whitespace-pre-wrap { white-space: pre-wrap; }
     </style>
 </head>
-<body class="bg-dream-bg min-h-screen flex items-center justify-center p-4 text-dream-text">
+<body class="bg-dream-bg min-h-screen flex items-center justify-center p-4">
 
-    <div class="max-w-lg w-full fade-in relative pb-20"> <div class="text-center mb-6">
-            <h1 class="text-3xl font-bold tracking-widest text-dream-accent mb-1" style="text-shadow: 2px 2px 0px #fff;">HAKONIWA</h1>
-            <p class="text-base text-dream-text tracking-widest">箱庭入夢 · 數位批發部</p>
+    <div class="max-w-[520px] w-full fade-in relative pb-24 animate-float"> 
+        
+        <div class="text-center mb-8 relative z-10">
+            <div class="inline-block relative">
+                <i class="fa-solid fa-star text-yellow-300 absolute -top-4 -left-6 text-2xl animate-pulse"></i>
+                <i class="fa-solid fa-sparkles text-dream-accent absolute -bottom-2 -right-8 text-xl animate-bounce"></i>
+                
+                <h1 class="text-4xl font-bold tracking-widest text-dream-accent mb-2" style="text-shadow: 3px 3px 0px #fff, 5px 5px 0px rgba(255, 182, 193, 0.3);">
+                    HAKONIWA
+                </h1>
+            </div>
+            <div class="bg-white/60 inline-block px-6 py-1 rounded-full mt-2 backdrop-blur-sm border border-white">
+                <p class="text-base font-bold text-dream-text tracking-wider">☁️ 箱庭入夢 · 數位批發部 ☁️</p>
+            </div>
         </div>
 
-        <div class="glass shadow-xl rounded-[32px] p-6 md:p-8 relative">
+        <div class="glass rounded-[40px] p-6 md:p-8 relative">
             
-            <div id="loadingOverlay" class="absolute inset-0 bg-white/90 z-50 rounded-[32px] flex flex-col items-center justify-center">
-                <i class="fa-solid fa-spinner fa-spin text-3xl text-dream-accent mb-3"></i>
-                <span class="text-dream-text font-bold text-lg">資料搬運中...</span>
+            <div id="loadingOverlay" class="absolute inset-0 bg-white/95 z-50 rounded-[36px] flex flex-col items-center justify-center">
+                <i class="fa-solid fa-cloud fa-bounce text-4xl text-dream-pink-light mb-4"></i>
+                <span class="text-dream-text font-bold text-lg tracking-widest">小精靈搬運中...</span>
             </div>
 
             <form id="orderForm" class="space-y-6">
                 <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
 
-                <div>
-                    <label class="block text-sm font-bold text-dream-accent mb-2 pl-1">① 選擇主題 (Theme)</label>
+                <div class="group">
+                    <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">
+                        <i class="fa-solid fa-heart text-xs mr-1"></i> 選擇主題 (Theme)
+                    </label>
                     <div class="relative">
-                        <select id="themeSelect" class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 appearance-none font-bold text-dream-text cursor-pointer hover:border-dream-accent transition-colors text-lg">
-                            <option value="" disabled selected>📦 資料讀取中...</option>
+                        <select id="themeSelect" class="w-full bg-white border-2 border-dream-pink-light px-6 py-4 appearance-none font-bold text-dream-text cursor-pointer hover:border-dream-accent transition-colors text-lg shadow-sm">
+                            <option value="" disabled selected>✨ 讀取資料中...</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-dream-accent">
-                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-dream-accent">
+                            <i class="fa-solid fa-caret-down text-lg"></i>
                         </div>
                     </div>
                 </div>
 
                 <div id="infoSection" class="hidden space-y-4 fade-in">
-                    <div class="bg-white border-2 border-dream-pink-light rounded-[24px] p-5 shadow-sm overflow-hidden">
-                        <h3 class="text-base font-bold text-dream-accent mb-3 flex items-center gap-2 border-b-2 border-dream-pink-light/30 pb-2">
-                            <i class="fa-solid fa-building-columns"></i> Payment Info
+                    <div class="bg-[#fff9fb] border-2 border-dream-pink-light rounded-[30px] p-5 relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-dream-pink-light/30 rounded-full"></div>
+                        <h3 class="text-base font-bold text-dream-accent mb-3 flex items-center gap-2 border-b-2 border-dream-pink-light/30 pb-2 relative z-10">
+                            <i class="fa-solid fa-sack-dollar"></i> Payment Info
                         </h3>
-                        <div id="bankContainer" class="space-y-3"></div>
+                        <div id="bankContainer" class="space-y-3 relative z-10"></div>
                     </div>
 
-                    <details class="bg-white border-2 border-dream-pink-light rounded-[24px] overflow-hidden group">
-                        <summary class="cursor-pointer p-4 font-bold text-dream-text flex justify-between items-center hover:bg-dream-pink-light/20 transition-colors select-none text-base">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-scroll text-dream-accent"></i> 購買須知 & 規範</span>
-                            <i class="fa-solid fa-chevron-down text-dream-accent transition-transform group-open:rotate-180"></i>
+                    <details class="bg-white border-2 border-dream-pink-light rounded-[30px] overflow-hidden group">
+                        <summary class="cursor-pointer p-4 px-6 font-bold text-dream-text flex justify-between items-center hover:bg-dream-bg transition-colors select-none">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-book-open text-dream-accent"></i> 購買須知</span>
+                            <div class="bg-dream-pink-light/30 w-8 h-8 rounded-full flex items-center justify-center group-open:rotate-180 transition-transform">
+                                <i class="fa-solid fa-chevron-down text-dream-accent text-sm"></i>
+                            </div>
                         </summary>
-                        <div class="p-5 border-t-2 border-dream-pink-light text-base text-dream-text leading-relaxed whitespace-pre-wrap bg-dream-bg/50" id="ruleText"></div>
+                        <div class="p-6 pt-2 border-t-2 border-dream-pink-light/30 text-base text-dream-text leading-loose whitespace-pre-wrap bg-[#fffbfc]" id="ruleText"></div>
                     </details>
                 </div>
 
                 <div id="productSection" class="hidden fade-in">
-                    <label class="block text-sm font-bold text-dream-accent mb-2 pl-1">② 選擇商品 (Select Items)</label>
-                    <div id="productList" class="space-y-3 max-h-80 overflow-y-auto pr-2 scrollbar-thin"></div>
+                    <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">
+                        <i class="fa-solid fa-shirt text-xs mr-1"></i> 選擇商品 (Items)
+                    </label>
+                    <div id="productList" class="space-y-3 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin pl-1"></div>
                 </div>
 
-                <div id="buyerSection" class="hidden grid grid-cols-2 gap-3 fade-in">
+                <div id="buyerSection" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 fade-in">
                     <div>
-                        <label class="block text-sm font-bold text-dream-accent mb-1 pl-1">Buyer Name</label>
-                        <input type="text" name="name" required placeholder="您的稱呼" class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 text-dream-text placeholder-dream-pink-light/70 text-base">
+                        <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">您的暱稱</label>
+                        <input type="text" name="name" required placeholder="怎麼稱呼您呢？" class="w-full bg-white border-2 border-dream-pink-light px-6 py-3 text-dream-text placeholder-dream-pink-light/80 text-base focus:scale-[1.02] transition-transform">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-dream-accent mb-1 pl-1">Email</label>
-                        <input type="email" name="email" required placeholder="接收檔案用" class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 text-dream-text placeholder-dream-pink-light/70 text-base">
+                        <label class="block text-sm font-bold text-dream-accent mb-2 pl-3">電子信箱</label>
+                        <input type="email" name="email" required placeholder="接收檔案用" class="w-full bg-white border-2 border-dream-pink-light px-6 py-3 text-dream-text placeholder-dream-pink-light/80 text-base focus:scale-[1.02] transition-transform">
                     </div>
                 </div>
 
                 <div id="totalSection" class="hidden fade-in">
-                    <div class="bg-dream-card-bg border-2 border-dream-pink-light p-5 rounded-[24px] shadow-sm">
-                        <div class="flex justify-between items-end mb-4 border-b-2 border-dream-pink-light pb-4">
-                            <span class="text-sm font-bold text-dream-accent">Total Amount</span>
-                            <div class="text-3xl font-bold font-mono text-dream-accent flex items-center">
-                                $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-24 text-right outline-none cursor-default text-dream-accent font-bold">
+                    <div class="bg-white border-4 border-double border-dream-pink-light p-6 rounded-[30px] shadow-sm relative">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-dream-accent text-white text-xs px-3 py-1 rounded-full shadow-sm">
+                            <i class="fa-solid fa-ribbon"></i> Checkout
+                        </div>
+
+                        <div class="flex justify-between items-end mb-4 border-b-2 border-dashed border-dream-pink-light pb-4">
+                            <span class="text-sm font-bold text-dream-text/70">總金額 Total</span>
+                            <div class="text-4xl font-bold font-mono text-dream-accent flex items-center drop-shadow-sm">
+                                $<input type="text" name="amount" id="totalAmount" value="0" readonly class="bg-transparent w-28 text-right outline-none cursor-default text-dream-accent font-bold">
                             </div>
                         </div>
                         <div>
-                             <label class="block text-sm font-bold text-dream-accent mb-2 flex items-center gap-2">
-                                <i class="fa-solid fa-receipt"></i> 帳號後五碼 / 備註
+                             <label class="block text-sm font-bold text-dream-accent mb-2 pl-2">
+                                帳號後五碼 / 備註
                              </label>
-                             <input type="text" name="account" required placeholder="請輸入匯款後五碼..." 
-                                class="w-full bg-white border-2 border-dream-pink-light px-4 py-3 text-center tracking-widest text-dream-text placeholder-dream-pink-light/70 transition-all text-lg">
+                             <input type="text" name="account" required placeholder="請填寫匯款後五碼..." 
+                                class="w-full bg-[#FFF0F5] border-2 border-dream-pink-light px-4 py-3 text-center tracking-widest text-dream-text placeholder-dream-pink-light/80 text-lg font-bold">
                         </div>
                     </div>
                 </div>
 
-                <div id="btnContainer" class="hidden fade-in pt-2">
-                    <button type="submit" id="submitBtn" class="w-full btn-primary font-bold py-4 text-xl rounded-[24px] shadow-lg flex items-center justify-center gap-2">
-                        <span>確認送出訂單</span>
-                        <i class="fa-solid fa-paper-plane text-sm"></i>
+                <div id="btnContainer" class="hidden fade-in pt-4">
+                    <button type="submit" id="submitBtn" class="w-full btn-submit-dream font-bold py-4 text-xl rounded-full flex items-center justify-center gap-3">
+                        <span>💖 確認送出訂單</span>
+                        <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </div>
 
             </form>
 
-            <div id="successMsg" class="hidden text-center mt-6 fade-in py-10">
-                <div class="w-24 h-24 bg-dream-pink-light/20 rounded-full flex items-center justify-center mx-auto mb-5 border-4 border-white shadow-inner">
-                    <i class="fa-solid fa-check text-4xl text-dream-accent"></i>
+            <div id="successMsg" class="hidden text-center mt-6 fade-in py-12">
+                <div class="relative w-28 h-28 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-dream-pink-light/40 rounded-full animate-ping"></div>
+                    <div class="relative w-full h-full bg-white rounded-full flex items-center justify-center border-4 border-dream-pink-light shadow-lg">
+                        <i class="fa-solid fa-heart text-5xl text-dream-accent animate-pulse"></i>
+                    </div>
                 </div>
-                <h3 class="text-3xl font-bold text-dream-text mb-3">訂單已送出！</h3>
-                <p class="text-base text-dream-text/80 mb-8">小精靈已經收到您的許願囉！<br>核對無誤後會盡快將檔案寄給您。</p>
-                <button onclick="location.reload()" class="px-8 py-3 border-2 border-dream-accent text-dream-accent rounded-full font-bold hover:bg-dream-accent hover:text-white transition-colors text-lg">
+                <h3 class="text-3xl font-bold text-dream-text mb-3">許願成功！🎉</h3>
+                <p class="text-base text-dream-text/80 mb-8 leading-relaxed">
+                    小精靈已經收到您的訂單囉！<br>
+                    請留意信箱，寶物很快就會送達 ✨
+                </p>
+                <button onclick="location.reload()" class="px-10 py-3 bg-white border-2 border-dream-accent text-dream-accent rounded-full font-bold hover:bg-dream-accent hover:text-white transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
                     再填一張
                 </button>
             </div>
         </div>
         
-        <div class="text-center mt-8 text-xs text-dream-pink-light font-bold opacity-60">&copy; 2026 Hakoniwa Studio.</div>
+        <div class="text-center mt-12 text-sm text-dream-pink-light font-bold opacity-80 tracking-widest">
+            &copy; 2026 Hakoniwa Studio.
+        </div>
     </div>
 
     <script>
-        // 👇 你的 GAS 網址 👇
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
 
         let globalData = {}; 
@@ -185,7 +253,7 @@
         const productSection = document.getElementById('productSection');
         const buyerSection = document.getElementById('buyerSection');
         const totalSection = document.getElementById('totalSection');
-        const btnContainer = document.getElementById('btnContainer'); // 按鈕容器
+        const btnContainer = document.getElementById('btnContainer');
         
         const productList = document.getElementById('productList');
         const ruleText = document.getElementById('ruleText');
@@ -193,14 +261,13 @@
         const totalInput = document.getElementById('totalAmount');
         const loadingOverlay = document.getElementById('loadingOverlay');
 
-        // 1. 初始化
         window.addEventListener('load', () => {
             fetch(SCRIPT_URL + '?action=getProducts')
             .then(res => res.json())
             .then(data => {
                 loadingOverlay.style.display = 'none';
                 globalData = data;
-                themeSelect.innerHTML = '<option value="" disabled selected>🌸 請點此選擇販售主題...</option>';
+                themeSelect.innerHTML = '<option value="" disabled selected>✨ 請點此選擇販售主題...</option>';
                 
                 if(Object.keys(data).length === 0){
                     themeSelect.innerHTML = '<option disabled>⚠️ 目前沒有上架的主題</option>';
@@ -215,27 +282,23 @@
             })
             .catch(err => {
                 console.error(err);
-                loadingOverlay.innerHTML = '<span class="text-red-500 font-bold">資料讀取失敗，請重整試試</span>';
+                loadingOverlay.innerHTML = '<span class="text-dream-accent font-bold">資料讀取失敗 QQ</span>';
             });
         });
 
-        // 2. 主題切換邏輯
         themeSelect.addEventListener('change', function() {
             const theme = this.value;
             const data = globalData[theme];
             if(!data) return;
 
-            // 確保所有區塊都打開
             infoSection.classList.remove('hidden');
             productSection.classList.remove('hidden');
             buyerSection.classList.remove('hidden');
             totalSection.classList.remove('hidden'); 
-            btnContainer.classList.remove('hidden'); // 強制打開按鈕
+            btnContainer.classList.remove('hidden');
 
-            // A. 規範
             ruleText.innerText = data.rules || "本主題無特殊規範。";
 
-            // B. 匯款資訊
             const rawBank = data.bankInfo || "";
             let bankHTML = "";
             if (rawBank.includes(",") || rawBank.includes("，")) {
@@ -245,13 +308,13 @@
                 bankHTML = `
                     <div class="flex items-center justify-between text-base">
                         <span class="text-dream-text/70 font-bold">銀行代碼</span>
-                        <span class="font-mono font-bold text-dream-text bg-dream-pink-light/30 px-3 py-1 rounded-full">${bankCode}</span>
+                        <span class="font-mono font-bold text-dream-text bg-white border border-dream-pink-light px-4 py-1 rounded-full">${bankCode}</span>
                     </div>
                     <div class="flex items-center justify-between text-base mt-3">
                         <span class="text-dream-text/70 font-bold">銀行帳號</span>
                         <div class="flex items-center gap-2">
                             <span class="font-mono font-bold text-dream-text text-lg tracking-wider">${bankAcct}</span>
-                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-8 h-8 flex items-center justify-center bg-dream-accent text-white rounded-full hover:bg-dream-accent/80 transition-all shadow-sm">
+                            <button type="button" onclick="copyText('${bankAcct}', this)" class="w-9 h-9 flex items-center justify-center bg-dream-pink-light text-white rounded-full hover:bg-dream-accent transition-all shadow-sm transform active:scale-90">
                                 <i class="fa-regular fa-copy text-sm"></i>
                             </button>
                         </div>
@@ -261,7 +324,6 @@
             }
             bankContainer.innerHTML = bankHTML;
 
-            // C. 商品列表
             productList.innerHTML = ''; 
             data.products.forEach((item) => {
                 const label = document.createElement('label');
@@ -275,16 +337,16 @@
 
                 label.innerHTML = `
                     <input type="checkbox" name="product_check" value="${item.name}" data-price="${item.price}" class="chk-input absolute opacity-0 w-0 h-0">
-                    <div class="border-2 border-dream-pink-light rounded-[20px] p-3 flex justify-between items-center transition-all hover:border-dream-accent hover:shadow-md bg-white">
+                    <div class="border-2 border-dream-pink-light rounded-[24px] p-3 flex justify-between items-center transition-all hover:border-dream-accent hover:shadow-[0_4px_15px_rgba(255,182,193,0.3)] bg-white">
                         <div class="flex items-center overflow-hidden w-full">
-                            <img src="${imgSrc}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFCBE4/white?text=No+Img'; this.classList.add('opacity-50');" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl border-2 border-dream-pink-light mr-3 bg-white">
+                            <img src="${imgSrc}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFCBE4/white?text=No+Img'; this.classList.add('opacity-50');" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl border-2 border-dream-pink-light mr-3 bg-[#fffbfc]">
                             <div class="flex flex-col min-w-0 pr-2">
                                 <span class="text-dream-text font-bold text-base truncate leading-tight">${item.name}</span>
-                                <span class="text-sm text-dream-text/50 mt-1">NT$ ${item.price}</span>
+                                <span class="text-sm text-dream-accent mt-1 font-bold">NT$ ${item.price}</span>
                             </div>
                         </div>
-                        <div class="chk-icon w-6 h-6 rounded-full border-2 border-dream-pink-light flex-shrink-0 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all shadow-sm ml-2">
-                            <i class="fa-solid fa-check text-[10px]"></i>
+                        <div class="chk-icon w-7 h-7 rounded-full border-2 border-dream-pink-light flex-shrink-0 flex items-center justify-center text-white bg-dream-accent opacity-0 transform scale-50 transition-all shadow-sm ml-2">
+                            <i class="fa-solid fa-heart text-xs"></i>
                         </div>
                     </div>`;
                 productList.appendChild(label);
@@ -297,10 +359,10 @@
             navigator.clipboard.writeText(text).then(() => {
                 const originalIcon = btnElement.innerHTML;
                 btnElement.innerHTML = '<i class="fa-solid fa-check"></i>';
-                btnElement.classList.add('bg-green-400', 'border-green-400');
+                btnElement.classList.add('bg-green-400');
                 setTimeout(() => {
                     btnElement.innerHTML = originalIcon;
-                    btnElement.classList.remove('bg-green-400', 'border-green-400');
+                    btnElement.classList.remove('bg-green-400');
                 }, 1500);
             });
         }
@@ -328,13 +390,13 @@
         form.addEventListener('submit', e => {
             e.preventDefault();
             const checkedBoxes = document.querySelectorAll('input[name="product_check"]:checked');
-            if(checkedBoxes.length === 0) { alert("⚠️ 請至少選擇一樣商品喔！"); return; }
+            if(checkedBoxes.length === 0) { alert("⚠️ 請問要購買什麼呢？請至少選擇一樣商品喔！"); return; }
 
             const btn = document.getElementById('submitBtn');
             const originalBtnContent = btn.innerHTML;
             
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 小精靈傳送中...';
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 魔法傳送中...';
 
             let formData = new FormData(form);
             let object = {};
