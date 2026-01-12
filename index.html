@@ -3,120 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>可愛訂購表單</title>
+<title>夢幻粉嫩訂購單</title>
 <style>
-    /* --- 全局設定 --- */
-    :root {
-        --bg-color: #f7f2f0; /* 淺奶茶底色 */
-        --line-color: #dccbc4; /* 格紋線條色 */
-        --card-bg: #ffffff;
-        --primary-text: #6d5d55; /* 深奶茶灰字體 */
-        --accent-pink: #f4cfd5; /* 柔粉色裝飾 */
-        --btn-bg: #bcaaa4; /* 奶茶灰按鈕 */
-        --btn-hover: #a1887f; /* 按鈕深色狀態 */
-    }
-
+    /* --- 全局設定：回歸粉白世界 --- */
     body {
-        font-family: 'Helvetica Neue', Arial, '微軟正黑體', sans-serif;
+        font-family: '微軟正黑體', Arial, sans-serif;
         margin: 0;
-        padding: 40px 20px;
-        color: var(--primary-text);
-        
-        /* --- 格紋背景設定 --- */
-        background-color: var(--bg-color);
-        background-image: 
-            linear-gradient(90deg, var(--line-color) 1px, transparent 1px),
-            linear-gradient(var(--line-color) 1px, transparent 1px);
-        background-size: 40px 40px; /* 格子大小 */
+        padding: 20px;
+        background-color: #fff0f5; /* 薰衣草粉紅底色 */
+        color: #555555; /* 一般深灰字，不是咖啡色 */
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start; /* 改成靠上對齊，避免內容太多被切掉 */
         min-height: 100vh;
     }
 
     /* --- 卡片主體 --- */
     .container {
-        background: var(--card-bg);
+        background: #ffffff;
         width: 100%;
-        max-width: 500px;
+        max-width: 480px; /* 寬度適中 */
         padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 10px 25px rgba(188, 170, 164, 0.3);
-        border: 4px solid var(--accent-pink); /* 粉色邊框 */
+        border-radius: 25px; /* 圓潤一點 */
+        border: 3px solid #ffdde5; /* 淺粉紅邊框 */
+        box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4); /* 粉紅光暈陰影 */
+        margin-top: 20px;
         position: relative;
-        overflow: hidden;
     }
 
     h2 {
         text-align: center;
-        color: var(--primary-text);
-        margin-bottom: 25px;
-        font-size: 1.5rem;
-    }
-
-    h2 span {
-        background: linear-gradient(120deg, var(--accent-pink) 0%, var(--accent-pink) 100%);
-        background-repeat: no-repeat;
-        background-size: 100% 30%;
-        background-position: 0 88%;
+        color: #ff8da1; /* 亮一點的粉紅標題 */
+        margin-bottom: 20px;
+        border-bottom: 2px dashed #ffe4e1;
+        padding-bottom: 10px;
     }
 
     /* --- 圖片預覽區 --- */
     .image-preview {
         width: 100%;
-        height: 200px;
-        background-color: #fafafa;
+        min-height: 180px;
+        background-color: #fff9fb;
         border-radius: 15px;
         margin-bottom: 20px;
-        overflow: hidden;
-        border: 2px dashed var(--btn-bg);
+        border: 2px dashed #ffb7c5; /* 虛線邊框 */
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
     }
 
     .image-preview img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* 確保圖片填滿不變形 */
-        display: block; /* 避免圖片下方有空隙 */
+        max-width: 100%;
+        height: auto;
+        display: block;
     }
 
-    /* --- 表單控制項 --- */
+    /* --- 表單樣式修復 --- */
     .form-group {
         margin-bottom: 15px;
     }
 
     label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
         font-weight: bold;
-        font-size: 0.95rem;
+        color: #ff9eb5; /* 標籤也是粉色 */
     }
 
-    input, textarea, select {
+    /* 只針對文字框、多行文字、下拉選單設定寬度，不影響選項按鈕 */
+    input[type="text"], 
+    textarea, 
+    select {
         width: 100%;
-        padding: 12px;
-        box-sizing: border-box; /* 修正寬度計算 */
-        border: 2px solid #eee;
-        border-radius: 12px;
+        padding: 10px;
+        box-sizing: border-box; /* 重要：防止寬度爆掉 */
+        border: 2px solid #ffe4e1;
+        border-radius: 10px;
         font-size: 1rem;
-        transition: all 0.3s ease;
-        background-color: #fffbfc;
-        color: var(--primary-text);
+        background-color: #fff;
+        color: #555;
+        outline: none;
     }
 
-    input:focus, textarea:focus, select:focus {
-        outline: none;
-        border-color: var(--accent-pink);
-        box-shadow: 0 0 8px rgba(244, 207, 213, 0.5);
+    /* 聚焦時變色 */
+    input[type="text"]:focus, 
+    textarea:focus, 
+    select:focus {
+        border-color: #ff8da1;
+        background-color: #fffbfd;
     }
 
     /* --- 按鈕設定 --- */
     .btn-group {
         display: flex;
         gap: 10px;
-        margin-top: 20px;
+        margin-top: 25px;
     }
 
     button {
@@ -126,148 +108,134 @@
         border-radius: 50px;
         font-size: 1rem;
         cursor: pointer;
-        font-weight: bold;
-        transition: transform 0.1s, background-color 0.3s;
+        transition: 0.2s;
     }
 
-    /* 複製按鈕 */
+    /* 複製按鈕：白底粉字 */
     .btn-copy {
         background-color: #fff;
-        border: 2px solid var(--btn-bg);
-        color: var(--btn-bg);
+        border: 2px solid #ffb7c5;
+        color: #ff8da1;
+        font-weight: bold;
     }
     .btn-copy:hover {
-        background-color: #fcfcfc;
+        background-color: #fff0f5;
     }
 
-    /* 送出按鈕 */
+    /* 送出按鈕：粉底白字 */
     .btn-submit {
-        background-color: var(--btn-bg);
-        color: #ffffff !important; /* 強制白色字體 */
-        box-shadow: 0 4px 10px rgba(188, 170, 164, 0.4);
+        background-color: #ffb7c5;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(255, 182, 193, 0.5);
     }
     .btn-submit:hover {
-        background-color: var(--btn-hover);
+        background-color: #ff9eb5;
         transform: translateY(-2px);
-    }
-    
-    button:active {
-        transform: scale(0.98);
     }
 
     /* --- 送出後的訊息區 --- */
     #success-message {
-        display: none; /* 預設隱藏 */
+        display: none;
         text-align: center;
-        padding: 20px;
-    }
-    
-    .emoji-icon {
-        font-size: 3rem;
-        margin-bottom: 10px;
-        display: block;
+        padding: 20px 0;
     }
 
-    .process-info {
-        background-color: #fff0f3;
+    .process-box {
+        background: #fff0f5;
+        border: 2px solid #ffcce0;
+        border-radius: 12px;
         padding: 15px;
-        border-radius: 10px;
-        margin-top: 15px;
-        font-size: 0.9rem;
-        color: #8c7b75;
-        border: 1px dashed var(--accent-pink);
+        margin-top: 20px;
+        color: #db7093; /* 深粉紅字 */
+        font-weight: bold;
+        line-height: 1.6;
     }
 
     /* 隱藏原始表單 */
     .hidden {
         display: none;
     }
-
 </style>
 </head>
 <body>
 
 <div class="container">
     <div id="order-form">
-        <h2><span>☁️ 訂購資訊</span></h2>
+        <h2>🌸 訂購確認單</h2>
         
         <div class="image-preview">
-    <img 
-        id="preview-img"
-        src="你的試算表連結填在這裡" 
-        alt="預覽圖"
-        onerror="this.onerror=null; this.src='https://media.giphy.com/media/UoeaPqYrimha6rdTFV/giphy.gif'; alert('圖片連結讀取失敗QQ！請檢查是不是用了 Google Drive 的網頁連結，記得要轉成直連喔！');"
-    >
-</div>
-
-        <div class="form-group">
-            <label>您的暱稱</label>
-            <input type="text" id="name" placeholder="請輸入暱稱...">
+            <img 
+                id="preview-img"
+                src="你的試算表連結貼在這裡" 
+                alt="預覽圖"
+                onerror="this.onerror=null; this.src='https://media.giphy.com/media/l4KibWpBGWchSqCRy/giphy.gif'; alert('圖片跑不出來QQ！請檢查連結是不是Google Drive網頁版，記得轉成直連喔！');"
+            >
         </div>
 
         <div class="form-group">
-            <label>訂購內容</label>
-            <textarea id="content" rows="4" placeholder="請填寫詳細內容..."></textarea>
+            <label>暱稱 / 稱呼</label>
+            <input type="text" id="name" placeholder="請輸入您的暱稱">
+        </div>
+
+        <div class="form-group">
+            <label>選擇項目</label>
+            <select id="type">
+                <option value="樣式A">樣式 A - 軟萌粉</option>
+                <option value="樣式B">樣式 B - 天使白</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>訂購詳細內容</label>
+            <textarea id="content" rows="5" placeholder="請填寫詳細內容..."></textarea>
         </div>
 
         <div class="btn-group">
             <button class="btn-copy" onclick="copyContent()">📋 複製內容</button>
-            <button class="btn-submit" onclick="submitOrder()">💌 送出表單</button>
+            <button class="btn-submit" onclick="submitOrder()">💖 確認送出</button>
         </div>
     </div>
 
     <div id="success-message">
-        <span class="emoji-icon">🎉</span>
-        <h3>表單已送出！</h3>
-        <p>謝謝您的填寫，我們已經收到囉。</p>
+        <h3 style="color: #ff8da1; font-size: 1.5rem;">表單送出成功！🎉</h3>
+        <p>太棒了！我們已經收到您的資料囉。</p>
         
-        <div class="process-info">
-            <strong>✨ 流程說明</strong><br>
-            小精靈確認 ➜ 1-3日內經由信箱發貨 📦
+        <div class="process-box">
+            ✨ 接下來的流程 ✨<br>
+            小精靈確認 ➜ 1-3日內經由信箱發貨 💌
         </div>
     </div>
 </div>
 
 <script>
-    // 複製功能的邏輯
     function copyContent() {
-        const content = document.getElementById('content');
+        // 這裡會抓取上面的輸入框內容組合
+        const name = document.getElementById('name').value;
+        const type = document.getElementById('type').value;
+        const content = document.getElementById('content').value;
         
-        // 確保有內容可以複製
-        if (!content.value.trim()) {
-            alert("請先輸入一些內容再複製唷！(>_<)");
+        // 組合要複製的文字格式
+        const finalText = `【暱稱】：${name}\n【選項】：${type}\n【內容】：${content}`;
+
+        if (!content && !name) {
+            alert("內容是空的耶...無法複製 (>_<)");
             return;
         }
 
-        content.select();
-        content.setSelectionRange(0, 99999); // 為了手機版相容性
-
-        try {
-            // 新版複製方法
-            navigator.clipboard.writeText(content.value).then(() => {
-                alert("複製成功！可以去貼上囉 ✨");
-            }).catch(err => {
-                // 如果新版失敗，嘗試舊版方法
-                document.execCommand('copy');
-                alert("複製成功！(備用模式)");
-            });
-        } catch (err) {
-            console.error('複製失敗:', err);
-            alert("複製失敗了 QQ，可能需要手動選取複製...");
-        }
+        navigator.clipboard.writeText(finalText).then(() => {
+            alert("複製成功！✨");
+        }).catch(err => {
+            alert("複製失敗，請手動複製 QQ");
+        });
     }
 
-    // 送出表單的邏輯
     function submitOrder() {
         const name = document.getElementById('name').value;
-        const content = document.getElementById('content').value;
-
-        if (!name || !content) {
-            alert("還有欄位沒填寫完畢喔！(´;ω;`)");
+        if (!name) {
+            alert("請至少填寫暱稱喔！🌸");
             return;
         }
-
-        // 隱藏表單，顯示成功訊息
         document.getElementById('order-form').classList.add('hidden');
         document.getElementById('success-message').style.display = 'block';
     }
