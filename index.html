@@ -173,7 +173,7 @@
                     </label>
                     <div class="relative">
                         <select id="themeSelect" class="w-full px-6 py-4 appearance-none font-bold text-dream-text cursor-pointer text-lg shadow-sm">
-                            <option value="" disabled selected>讀取資料中...</option>
+                            <option value="" disabled selected>✨ 請點此選擇販售主題...</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-dream-accent">
                             <i class="fa-solid fa-chevron-down text-lg"></i>
@@ -182,6 +182,7 @@
                 </div>
 
                 <div id="infoSection" class="hidden space-y-5 fade-in">
+                    
                     <div class="bg-white border-2 border-dashed border-dream-border rounded-[24px] p-6 relative overflow-hidden">
                         <div class="absolute -right-4 -top-4 text-6xl text-dream-bg rotate-12 opacity-50">
                             <i class="fa-solid fa-coins"></i>
@@ -191,6 +192,14 @@
                         </h3>
                         <div id="bankContainer" class="space-y-3 relative z-10"></div>
                     </div>
+
+                    <details class="bg-[#FFFDF9] border-2 border-dream-border rounded-[24px] overflow-hidden group">
+                        <summary class="cursor-pointer p-4 px-5 font-bold text-dream-text flex justify-between items-center hover:bg-white select-none">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-gift text-dream-accent"></i> 內容物</span>
+                            <div class="text-dream-accent group-open:rotate-180 transition-transform"><i class="fa-solid fa-angle-down"></i></div>
+                        </summary>
+                        <div class="p-6 border-t-2 border-dashed border-dream-border text-base text-dream-text leading-loose whitespace-pre-wrap" id="contentText"></div>
+                    </details>
 
                     <details class="bg-[#FDFBF7] border-2 border-dream-border rounded-[24px] overflow-hidden group">
                         <summary class="cursor-pointer p-4 px-5 font-bold text-dream-text flex justify-between items-center hover:bg-white transition-colors select-none">
@@ -281,7 +290,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwa_eQptpiyYQXXcxYUNpU3UBuNvejONgKNpW2IJ7paGnufoVGtoOeQwJJOQ19lwEQo/exec'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBZjTBh6MqsPMczBUgnqg-wcPJSoFXtQcd_0PxZNzVJJQhPb3LuLdgRqWi7qbcnagR/exec'; 
 
         let globalData = {}; 
 
@@ -294,10 +303,12 @@
         
         const productList = document.getElementById('productList');
         const ruleText = document.getElementById('ruleText');
+        const contentText = document.getElementById('contentText');
         const bankContainer = document.getElementById('bankContainer');
         const totalInput = document.getElementById('totalAmount');
         const loadingOverlay = document.getElementById('loadingOverlay');
 
+        // 初始化讀取資料
         window.addEventListener('load', () => {
             fetch(SCRIPT_URL + '?action=getProducts')
             .then(res => res.json())
@@ -323,6 +334,7 @@
             });
         });
 
+        // 選擇主題後觸發
         themeSelect.addEventListener('change', function() {
             const theme = this.value;
             const data = globalData[theme];
@@ -334,8 +346,11 @@
             totalSection.classList.remove('hidden'); 
             btnContainer.classList.remove('hidden');
 
+            // ✅ 更新購買須知與內容物明細
             ruleText.innerText = data.rules || "本主題無特殊規範。";
+            contentText.innerText = data.contents || "本主題暫無詳細內容說明。";
 
+            // 匯款資訊處理
             const rawBank = data.bankInfo || "";
             let bankHTML = "";
             if (rawBank.includes(",") || rawBank.includes("，")) {
@@ -361,6 +376,7 @@
             }
             bankContainer.innerHTML = bankHTML;
 
+            // 商品列表生成
             productList.innerHTML = ''; 
             data.products.forEach((item) => {
                 const label = document.createElement('label');
@@ -372,15 +388,12 @@
                     if(idMatch) imgSrc = `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
                 }
 
-                // ✨ 這裡加入了名稱分離邏輯 ✨
-                let displayName = item.name; // 預設顯示完整名稱
-                let submitValue = item.name; // 預設送出完整名稱
-                
-                // 如果偵測到 | 符號，就進行切割
+                // ✨ 名稱分離邏輯：顯示簡短名，送出完整名
+                let displayName = item.name; 
+                let submitValue = item.name; 
                 if(item.name.includes('|')){
                     const parts = item.name.split('|');
-                    displayName = parts[0].trim(); // | 前面的是「編號01」
-                    submitValue = parts[1].trim(); // | 後面的是「2026-xxx」
+                    displayName = parts[0].trim();
                 }
 
                 label.innerHTML = `
@@ -405,6 +418,7 @@
             updateTotal();
         });
 
+        // 複製文字功能
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalIcon = btnElement.innerHTML;
@@ -419,6 +433,7 @@
             });
         }
 
+        // 計算總額
         productList.addEventListener('change', updateTotal);
         function updateTotal() {
             const checkboxes = document.querySelectorAll('input[name="product_check"]:checked');
@@ -427,6 +442,7 @@
             animateValue(totalInput, parseInt(totalInput.value) || 0, total, 300);
         }
 
+        // 數字動畫
         function animateValue(obj, start, end, duration) {
             let startTimestamp = null;
             const step = (timestamp) => {
@@ -438,6 +454,7 @@
             window.requestAnimationFrame(step);
         }
 
+        // 送出訂單
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', e => {
             e.preventDefault();
@@ -453,7 +470,6 @@
             let formData = new FormData(form);
             let object = {};
             formData.forEach((value, key) => object[key] = value);
-            // 這裡會抓取我們剛剛設定的 submitValue (後台代碼)
             object['product'] = Array.from(checkedBoxes).map(cb => cb.value).join(", ");
             object['amount'] = totalInput.value;
 
