@@ -34,6 +34,41 @@
         }
     </script>
     <style>
+        /* ☁️ 雲朵跳跳動畫 */
+@keyframes cloud-jump {
+    0%, 100% { 
+        transform: translateY(0) scale(1, 1); /* 在地上時正常 */
+    }
+    40% { 
+        transform: translateY(-25px) scale(1.1, 0.95); /* 跳到最高點，稍微拉長 */
+    }
+    60% {
+        transform: translateY(-25px) scale(1.1, 0.95); /* 滯空一下下 */
+    }
+    85% {
+        transform: translateY(0) scale(0.9, 1.1); /* 落地瞬間被壓扁一點點(Q彈感) */
+    }
+}
+
+/* 🌑 影子縮放動畫 */
+@keyframes shadow-pulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.3; /* 在地上時影子大 */
+    }
+    40%, 60% { 
+        transform: scale(0.6); 
+        opacity: 0.1; /* 跳起來時影子變小變淡 */
+    }
+}
+
+.animate-cloud {
+    animation: cloud-jump 1.2s infinite ease-in-out;
+}
+
+.animate-shadow {
+    animation: shadow-pulse 1.2s infinite ease-in-out;
+}
         body {
             background-color: var(--dream-bg);
             /* 點點背景圖案 */
@@ -148,10 +183,17 @@
             
             <div class="washi-tape"></div>
 
-            <div id="loadingOverlay" class="absolute inset-0 bg-white/90 z-50 rounded-[32px] flex flex-col items-center justify-center backdrop-blur-sm">
-                <i class="fa-solid fa-spinner fa-spin-pulse text-4xl text-dream-accent mb-4"></i>
-                <span class="text-dream-text font-bold text-lg tracking-widest">正在翻開手帳...</span>
-            </div>
+            <div id="loadingOverlay" class="absolute inset-0 bg-[#FFFDF9]/95 z-50 rounded-[32px] flex flex-col items-center justify-center backdrop-blur-sm">
+    <div class="relative flex flex-col items-center">
+        <i class="fa-solid fa-cloud text-6xl text-[#BCE7F0] animate-cloud relative z-10"></i>
+        
+        <div class="w-12 h-3 bg-dream-text rounded-full mt-2 animate-shadow blur-[2px]"></div>
+    </div>
+    
+    <span class="text-dream-text font-bold text-lg tracking-widest mt-6 animate-pulse">
+        正在翻開手帳...
+    </span>
+</div>
 
             <form id="orderForm" class="space-y-7">
                 <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
