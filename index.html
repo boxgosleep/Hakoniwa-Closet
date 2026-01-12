@@ -17,7 +17,7 @@
     'dream-bg': '#FFFAF0',      /* 花卉白 */
     'dream-card': '#FFFFF5',    /* 象牙白 */
     'dream-border': '#F0E0C0',  /* 餅乾色框 */
-    'dream-accent': '#F4B183',  /* 鮭魚橘按鈕 */
+    'dream-accent': '#c99257',  /* 鮭魚橘按鈕 */
     'dream-accent-dark': '#D99060',
     'dream-text': '#8B5A2B',    /* 焦糖深棕文字 */
     'deco-yellow': '#FFE4B5',   
@@ -87,32 +87,22 @@
         }
         
         /* 複選框被選中時的樣式 */
-        .chk-input:checked + div { 
-            border-color: #FF9EB5; 
-            background-color: #FFF0F5; 
-            border-style: dashed; /* 選中變成虛線框 */
-        }
+.chk-input:checked + div { 
+    border-color: #D4A373;     /* 1. 邊框變成烤餅乾色 */
+    background-color: #FFF4E0; /* 2. 底色變成奶油麵團色 */
+    border-style: dashed;      /* 維持可愛的虛線 */
+}
         
         /* 按鈕樣式 */
         .btn-cute { 
-            background-color: #FF9EB5; 
-            color: white; 
-            border: 3px solid #FF9EB5;
-            border-radius: 999px;
-            transition: all 0.2s;
-        }
-        .btn-cute:hover { 
-            background-color: #FF7A92; 
-            border-color: #FF7A92;
-            transform: translateY(-2px);
-        }
-        .btn-cute:active { transform: translateY(0); }
-        .btn-cute:disabled {
-            background-color: #ECECEC;
-            border-color: #ECECEC;
-            color: #BBB;
-            transform: none;
-        }
+    background-color: #D2691E; border: 3px solid #D2691E; color: white;
+}
+.btn-cute:hover { 
+    background-color: #A0522D; border-color: #A0522D;
+}
+.btn-cute:disabled {
+    background-color: #EED5B7; border-color: #EED5B7; color: #8B4513;
+}
 
         /* 滾動條 */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
